@@ -1,0 +1,3116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <title>DevDarshan: Hindu Wallpaper</title>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y16GLTS9W1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Y16GLTS9W1');
+    </script>
+
+    <!-- Icons & Typography -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-base: #070A10;
+            --bg-surface: #0E1422;
+            --bg-card: #141C2E;
+            --bg-card-elevated: #1B253D;
+            --gold-primary: #E5A93C;
+            --gold-light: #F6C85E;
+            --gold-glow: rgba(229, 169, 60, 0.35);
+            --live-crimson: #FF2E63;
+            --live-glow: rgba(255, 46, 99, 0.45);
+            --iskcon-saffron: #FF9933;
+            --text-main: #FFFFFF;
+            --text-muted: #94A3B8;
+            --text-sub: #64748B;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-gold: rgba(229, 169, 60, 0.35);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 26px;
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-top: env(safe-area-inset-top, 0px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            padding-bottom: calc(72px + var(--safe-bottom));
+        }
+
+        .font-devotional {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Micro Feedback Ripple & Spinner */
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+            opacity: 0.85;
+        }
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            top: 50%;
+            left: 50%;
+            margin-top: -7px;
+            margin-left: -7px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        /* Real-Time WhatsApp Action Feedback Pill */
+        #action-status-pill {
+            position: fixed;
+            top: calc(20px + var(--safe-top));
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: rgba(14, 20, 34, 0.96);
+            border: 1px solid var(--border-gold);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 100000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 15px var(--gold-glow);
+            transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            pointer-events: none;
+            backdrop-filter: blur(10px);
+        }
+        #action-status-pill.show {
+            transform: translateX(-50%) translateY(0);
+        }
+        .action-spinner-circle {
+            width: 13px;
+            height: 13px;
+            border: 2px solid rgba(229, 169, 60, 0.3);
+            border-top-color: var(--gold-primary);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        /* ==================== 1. TOAST NOTIFICATION ==================== */
+        #toast-notification {
+            position: fixed;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(14, 20, 34, 0.98);
+            border: 1px solid var(--border-gold);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-size: 12.5px;
+            font-weight: 600;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            z-index: 99999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 15px var(--gold-glow);
+            transition: all 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            pointer-events: none;
+        }
+        #toast-notification.show {
+            display: flex;
+            top: calc(24px + var(--safe-top));
+        }
+
+        /* ==================== 2. TOP APP HEADER ==================== */
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(7, 10, 16, 0.96);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: calc(10px + var(--safe-top)) 18px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .brand-logo-wrap {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1.5px solid var(--gold-primary);
+            box-shadow: 0 0 14px var(--gold-glow);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0B101D;
+            flex-shrink: 0;
+        }
+        .brand-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .brand-text h1 {
+            font-size: 17.5px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+            line-height: 1.15;
+            letter-spacing: 0.2px;
+        }
+        .brand-text p {
+            font-size: 10px;
+            color: var(--gold-primary);
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .icon-btn-round {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .icon-btn-round:active {
+            transform: scale(0.92);
+            border-color: var(--gold-primary);
+        }
+        .badge-iskcon-pill {
+            background: linear-gradient(135deg, var(--iskcon-saffron), #D97706);
+            color: #000;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(255, 153, 51, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* --- SEARCH SLIDER --- */
+        #search-box-bar {
+            display: none;
+            background: var(--bg-surface);
+            padding: 10px 18px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .search-inner {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 0 12px;
+        }
+        .search-inner:focus-within {
+            border-color: var(--gold-primary);
+        }
+        .search-inner input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            padding: 10px 8px;
+            font-size: 14px;
+        }
+
+        /* ==================== 3. AUTO-SLIDING BANNER ==================== */
+        .slider-section {
+            padding: 14px 18px 6px;
+        }
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 10px;
+        }
+        .slider-header h3 {
+            font-size: 13.5px;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            color: var(--gold-light);
+            font-weight: 700;
+        }
+        .slider-header span {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .hero-carousel-container {
+            position: relative;
+            width: 100%;
+            height: 230px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: #0B0F19;
+            border: 1px solid var(--border-gold);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            pointer-events: none;
+        }
+        .carousel-track {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 18%;
+            display: block;
+        }
+        .carousel-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.05) 30%, rgba(7, 10, 16, 0.95) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 16px;
+        }
+        .slide-title {
+            font-size: 17.5px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+        .slide-subtitle {
+            font-size: 11px;
+            color: #E2E8F0;
+            font-style: italic;
+        }
+        .carousel-dots {
+            position: absolute;
+            bottom: 10px;
+            right: 16px;
+            display: flex;
+            gap: 6px;
+            z-index: 10;
+        }
+        .carousel-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        .carousel-dot.active {
+            width: 18px;
+            border-radius: 10px;
+            background: var(--gold-primary);
+            box-shadow: 0 0 6px var(--gold-glow);
+        }
+
+        /* ==================== 4. DAILY DEVOTIONAL CONTENT ==================== */
+        .daily-section-wrap {
+            padding: 14px 0 6px;
+            background: linear-gradient(180deg, rgba(20, 28, 46, 0.5) 0%, transparent 100%);
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+            margin: 10px 0 4px;
+        }
+        .daily-section-header {
+            padding: 0 18px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .daily-title-box h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .daily-title-box p {
+            font-size: 10.5px;
+            color: var(--gold-light);
+            margin: 0;
+            font-weight: 600;
+        }
+        .daily-tag-today {
+            background: rgba(229, 169, 60, 0.15);
+            border: 1px solid var(--border-gold);
+            color: var(--gold-light);
+            font-size: 10.5px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .daily-cards-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 4px 18px 10px;
+            scrollbar-width: none;
+        }
+        .daily-cards-scroll::-webkit-scrollbar { display: none; }
+
+        .daily-card {
+            position: relative;
+            min-width: 150px;
+            max-width: 150px;
+            height: 235px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .daily-card:active {
+            transform: scale(0.97);
+        }
+        .daily-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .daily-card-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(14, 20, 34, 0.9);
+            border: 1px solid var(--border-gold);
+            color: #fff;
+            font-size: 9px;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 10px;
+            backdrop-filter: blur(6px);
+            z-index: 2;
+        }
+        .daily-card-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(7, 10, 16, 0.95) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 8px;
+            z-index: 2;
+        }
+        .daily-card-title {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2px;
+            line-height: 1.2;
+        }
+        .daily-card-sub {
+            font-size: 9px;
+            color: var(--gold-light);
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .daily-card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 4px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 16px;
+            padding: 3px 6px;
+        }
+        .daily-action-btn {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 12.5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+        .daily-action-btn.wa-btn {
+            color: #25D366;
+            font-size: 14px;
+        }
+
+        /* ==================== 5. CIRCLE AVATAR CATEGORIES ==================== */
+        .category-avatar-scroll {
+            padding: 14px 0 6px;
+            overflow-x: auto;
+            white-space: nowrap;
+            display: flex;
+            gap: 14px;
+            padding-left: 18px;
+            padding-right: 18px;
+            scrollbar-width: none;
+        }
+        .category-avatar-scroll::-webkit-scrollbar { display: none; }
+        .avatar-cat-item {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            min-width: 64px;
+        }
+        .avatar-ring {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            padding: 2px;
+            background: var(--bg-surface);
+            border: 1.5px solid var(--border-subtle);
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+        .avatar-cat-item.active .avatar-ring {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 14px var(--gold-glow);
+            transform: scale(1.05);
+        }
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+        }
+        .avatar-name {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-align: center;
+            max-width: 68px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .avatar-cat-item.active .avatar-name {
+            color: var(--gold-light);
+            font-weight: 700;
+        }
+
+        /* --- FILTER TABS --- */
+        .filter-tab-group {
+            display: flex;
+            background: var(--bg-surface);
+            border-radius: 12px;
+            padding: 4px;
+            margin: 8px 18px 14px;
+            border: 1px solid var(--border-subtle);
+        }
+        .filter-tab {
+            flex: 1;
+            text-align: center;
+            padding: 7px 0;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-tab.active {
+            background: var(--gold-primary);
+            color: #0E0A03;
+            font-weight: 700;
+            box-shadow: 0 2px 8px var(--gold-glow);
+        }
+
+        /* ==================== 6. WALLPAPER GRID ==================== */
+        .section-bar {
+            padding: 14px 18px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .section-bar h2 {
+            font-size: 15.5px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .section-bar a {
+            font-size: 12px;
+            color: var(--gold-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .wallpaper-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 0 16px;
+        }
+        .card-wall {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+        }
+        .card-thumb-wrap {
+            position: relative;
+            width: 100%;
+            height: 240px;
+            background: #0F1523;
+            overflow: hidden;
+        }
+        .card-thumb-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        .badge-live {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--live-crimson);
+            color: #fff;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 0 10px var(--live-glow);
+            z-index: 2;
+        }
+        .badge-live-pulse {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #fff;
+            animation: liveBlink 1s infinite alternate;
+        }
+        @keyframes liveBlink { from { opacity: 0.3; } to { opacity: 1; } }
+
+        .card-footer-pill {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            padding: 4px 8px;
+            background: rgba(14, 20, 34, 0.92);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 3;
+        }
+        .pill-btn {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 15px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .pill-btn.btn-fav.active {
+            color: var(--live-crimson);
+        }
+        .pill-btn-set {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+            color: #0F0B02;
+            font-size: 11px;
+            font-weight: 800;
+            border: none;
+            border-radius: 16px;
+            padding: 3px 10px;
+            cursor: pointer;
+        }
+        .pill-btn-set.is-live-btn {
+            background: linear-gradient(135deg, #FF6B8B, var(--live-crimson));
+            color: #fff;
+        }
+
+        /* ==================== 7. PREVIEW MODAL ==================== */
+        #preview-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 5000;
+            background: #000;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+        .preview-viewport {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: #070A10;
+        }
+        .preview-layer-poster,
+        .preview-layer-live {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            image-rendering: -webkit-optimize-contrast;
+            transition: filter 0.3s ease;
+        }
+        .preview-layer-live {
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .preview-layer-live.loaded {
+            opacity: 1;
+        }
+
+        .preview-topbar {
+            position: relative;
+            z-index: 10;
+            padding: 16px 18px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, transparent 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .preview-bottombar {
+            position: relative;
+            z-index: 10;
+            padding: 20px 20px calc(20px + var(--safe-bottom));
+            background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 70%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .preview-quick-actions {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .preview-action-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #fff;
+            cursor: pointer;
+        }
+        .preview-action-item span {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        .btn-set-wallpaper-main {
+            width: 100%;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+            color: #120E03;
+            font-size: 14px;
+            font-weight: 800;
+            border: none;
+            padding: 14px;
+            border-radius: 30px;
+            box-shadow: 0 4px 18px var(--gold-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .btn-set-wallpaper-main.is-live {
+            background: linear-gradient(135deg, #FF6B8B, var(--live-crimson));
+            color: #fff;
+            box-shadow: 0 4px 18px var(--live-glow);
+        }
+
+        /* ==================== 8. SET WALLPAPER BOTTOM SHEET ==================== */
+        .sheet-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(5px);
+            z-index: 6000;
+            display: none;
+        }
+        #wallpaper-sheet {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            right: 0;
+            background: var(--bg-surface);
+            border-top-left-radius: var(--radius-xl);
+            border-top-right-radius: var(--radius-xl);
+            padding: 22px 20px calc(22px + var(--safe-bottom));
+            z-index: 6001;
+            border-top: 1px solid var(--border-gold);
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
+            transition: bottom 0.25s cubic-bezier(0.1, 0.9, 0.2, 1);
+        }
+        #wallpaper-sheet.active {
+            bottom: 0;
+        }
+        .sheet-option-item {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            padding: 14px 16px;
+            border-radius: var(--radius-md);
+            color: #fff;
+            font-size: 13.5px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .sheet-option-item:active {
+            background: var(--gold-primary);
+            color: #0E0A03;
+        }
+
+        /* ==================== 9. ULTRA-MAGIC INSTANT LOADER ==================== */
+        #magic-loader-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 7, 14, 0.92);
+            backdrop-filter: blur(18px);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .magic-card {
+            background: radial-gradient(circle at 50% 30%, #1A253C 0%, #0D1322 100%);
+            border: 1.5px solid var(--border-gold);
+            border-radius: 28px;
+            width: 86%;
+            max-width: 320px;
+            padding: 34px 22px 28px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 30px var(--gold-glow);
+            position: relative;
+            overflow: hidden;
+            animation: magicPop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes magicPop {
+            from { transform: scale(0.88); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .magic-aura-glow {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 110px;
+            height: 110px;
+            background: radial-gradient(circle, rgba(229, 169, 60, 0.4) 0%, transparent 70%);
+            filter: blur(15px);
+            pointer-events: none;
+        }
+        .magic-orbit-container {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .magic-ring-outer {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px dashed var(--gold-primary);
+            animation: rotateOrbit 7s linear infinite;
+        }
+        .magic-ring-inner {
+            position: absolute;
+            inset: 8px;
+            border-radius: 50%;
+            border: 1.5px dotted var(--gold-light);
+            animation: counterRotateOrbit 5s linear infinite;
+        }
+        @keyframes rotateOrbit { 100% { transform: rotate(360deg); } }
+        @keyframes counterRotateOrbit { 100% { transform: rotate(-360deg); } }
+
+        .magic-center-emblem {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 1.5px solid var(--gold-primary);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 16px var(--gold-glow);
+            animation: magicPulse 1.8s ease-in-out infinite alternate;
+            z-index: 2;
+            background: #0B101D;
+        }
+        .magic-center-emblem img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        @keyframes magicPulse {
+            from { transform: scale(0.92); box-shadow: 0 0 8px var(--gold-glow); }
+            to { transform: scale(1.08); box-shadow: 0 0 24px rgba(229, 169, 60, 0.6); }
+        }
+
+        .magic-percentage {
+            font-size: 34px;
+            font-weight: 800;
+            color: #FFFFFF;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 14px var(--gold-glow);
+            margin-bottom: 4px;
+        }
+        .magic-status-pill {
+            display: inline-block;
+            font-size: 11.5px;
+            color: var(--text-muted);
+            line-height: 1.4;
+            min-height: 24px;
+            margin-bottom: 18px;
+            font-weight: 500;
+            word-break: break-word;
+        }
+
+        .magic-bar-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            position: relative;
+        }
+        .magic-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--gold-light), var(--gold-primary), #FF7B54);
+            border-radius: 20px;
+            transition: width 0.15s ease;
+            box-shadow: 0 0 12px var(--gold-glow);
+            position: relative;
+        }
+        .magic-bar-fill::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+            animation: magicShimmer 1.5s infinite;
+        }
+        @keyframes magicShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* ==================== 10. GLOBAL MORE & ABOUT SCREEN ==================== */
+        .more-hero {
+            text-align: center;
+            padding: 30px 20px 20px;
+        }
+        .more-logo-frame {
+            width: 88px;
+            height: 88px;
+            margin: 0 auto 14px;
+            border-radius: 50%;
+            border: 2px solid var(--gold-primary);
+            box-shadow: 0 0 25px var(--gold-glow);
+            overflow: hidden;
+            background: #0B101D;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .more-logo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .more-menu-group {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            margin: 0 18px 16px;
+            overflow: hidden;
+        }
+        .more-menu-item {
+            padding: 15px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-subtle);
+            color: #fff;
+            font-size: 13.5px;
+            cursor: pointer;
+        }
+        .more-menu-item:last-child {
+            border-bottom: none;
+        }
+        .more-menu-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .more-menu-left i {
+            font-size: 18px;
+            color: var(--gold-primary);
+            width: 22px;
+        }
+
+        /* CUSTOM IN-APP CONFIRMATION MODAL */
+        #confirm-clear-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 9100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .confirm-card {
+            background: var(--bg-surface);
+            border: 1.5px solid var(--border-gold);
+            border-radius: var(--radius-xl);
+            padding: 26px 20px;
+            max-width: 320px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.9);
+            animation: magicPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .confirm-card i {
+            font-size: 36px;
+            color: var(--live-crimson);
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        .confirm-card h4 {
+            font-size: 17px;
+            color: #fff;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+        .confirm-card p {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .confirm-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-confirm-yes {
+            flex: 1;
+            background: linear-gradient(135deg, #FF4757, #FF2E63);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 0;
+            font-size: 12.5px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 3px 12px var(--live-glow);
+        }
+        .btn-confirm-no {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-main);
+            border-radius: 20px;
+            padding: 10px 0;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* ABOUT MODAL */
+        #about-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 9000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .about-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-gold);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            max-width: 360px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+        }
+        .about-card h3 {
+            font-size: 19px;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .about-card p {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .about-btn-close {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+            color: #0E0A03;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 24px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* ==================== 11. FESTIVALS ==================== */
+        .fest-left-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .fest-card-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1.5px solid var(--gold-primary);
+            box-shadow: 0 0 10px var(--gold-glow);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .festival-card {
+            background: linear-gradient(135deg, #182236 0%, #0E1422 100%);
+            border: 1px solid var(--border-gold);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .festival-card:active {
+            transform: scale(0.98);
+        }
+        .fest-info h4 {
+            font-size: 14.5px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+        .fest-info p {
+            font-size: 11px;
+            color: var(--gold-primary);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .fest-badge {
+            background: rgba(229, 169, 60, 0.15);
+            color: var(--gold-light);
+            border: 1px solid var(--border-gold);
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* ==================== 12. BOTTOM NAVIGATION ==================== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(7, 10, 16, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border-subtle);
+            height: calc(60px + var(--safe-bottom));
+            padding-bottom: var(--safe-bottom);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 4000;
+        }
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+        .nav-item i {
+            font-size: 18px;
+        }
+        .nav-item span {
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .nav-item.active {
+            color: var(--gold-primary);
+        }
+
+        .view-page { display: none; }
+        .view-page.active-page { display: block; }
+        
+        #loader-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-base);
+            z-index: 8000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .lotus-spinner {
+            width: 44px;
+            height: 44px;
+            border: 3px solid rgba(229, 169, 60, 0.15);
+            border-top-color: var(--gold-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 12px;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .empty-placeholder {
+            text-align: center;
+            padding: 60px 20px;
+            width: 100%;
+        }
+        .empty-placeholder i {
+            font-size: 50px;
+            color: var(--text-sub);
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 0. WHATSAPP STYLE REAL-TIME CLICK FEEDBACK PILL -->
+    <div id="action-status-pill">
+        <div class="action-spinner-circle" id="action-spinner"></div>
+        <i class="bi bi-check2-circle text-success" id="action-check-icon" style="display:none; font-size:16px;"></i>
+        <span id="action-status-text">Processing...</span>
+    </div>
+
+    <!-- 1. TOAST NOTIFICATION -->
+    <div id="toast-notification">
+        <i class="bi bi-check2-circle text-success" style="font-size:18px;"></i>
+        <span id="toast-msg">Saved to Device Gallery</span>
+    </div>
+
+    <!-- 2. ULTRA-MAGIC INSTANT LOADER -->
+    <div id="magic-loader-overlay">
+        <div class="magic-card">
+            <div class="magic-aura-glow"></div>
+            <div class="magic-orbit-container">
+                <div class="magic-ring-outer" id="magic-outer-ring"></div>
+                <div class="magic-ring-inner"></div>
+                <div class="magic-center-emblem" id="magic-center-icon">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh-bX10dFrWfQUjQnPHiahsLtuPOAwPE130p8VBPsvFiBm1QCVVFNAFJCnyy5UT9Dv4tNG0LxMZg91pF4m8IRF7ttpmhFGQFATCTnTlL9CljnS1BcYSFsxzrvVwgw79Jr_yNxrGEBg4UHDFYWzra6uogVJfPg_V6fRaTNrAkp-Oty6jIa2HvZnyHxjOkHJf/s200/1000303466.png" alt="DevDarshan">
+                </div>
+            </div>
+            <div class="magic-percentage" id="magic-pct-text">0%</div>
+            <div class="magic-status-pill" id="magic-status-text">⚡ Downloading Ultra HD...</div>
+            <div class="magic-bar-container">
+                <div class="magic-bar-fill" id="magic-bar-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. SET WALLPAPER BOTTOM SHEET -->
+    <div class="sheet-backdrop" id="sheet-backdrop" onclick="closeWallpaperSheet()"></div>
+    <div id="wallpaper-sheet">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <div>
+                <h3 style="font-size:16px; font-weight:700; color:#fff;">Set Wallpaper</h3>
+                <p style="font-size:11px; color:var(--text-muted); margin:0;">Instant One-Tap Setup</p>
+            </div>
+            <i class="bi bi-x-circle-fill" style="font-size:22px; color:var(--text-muted); cursor:pointer;" onclick="closeWallpaperSheet()"></i>
+        </div>
+        <div class="sheet-option-item" onclick="executeSetWallpaper(1)">
+            <span><i class="bi bi-phone me-2" style="color:var(--gold-primary);"></i> Home Screen</span>
+            <i class="bi bi-chevron-right" style="color:var(--text-sub);"></i>
+        </div>
+        <div class="sheet-option-item" onclick="executeSetWallpaper(2)">
+            <span><i class="bi bi-lock me-2" style="color:#60A5FA;"></i> Lock Screen</span>
+            <i class="bi bi-chevron-right" style="color:var(--text-sub);"></i>
+        </div>
+        <div class="sheet-option-item" onclick="executeSetWallpaper(3)">
+            <span><i class="bi bi-layers-half me-2" style="color:#34D399;"></i> Home & Lock Screen</span>
+            <i class="bi bi-chevron-right" style="color:var(--text-sub);"></i>
+        </div>
+    </div>
+
+    <!-- 4. FULLSCREEN PREVIEW (HIGH RES ZERO BLUR) -->
+    <div id="preview-modal">
+        <div class="preview-viewport">
+            <img id="preview-poster" class="preview-layer-poster" src="" alt="Poster">
+            <img id="preview-live-media" class="preview-layer-live" src="" alt="Live Visual">
+        </div>
+
+        <div class="preview-topbar">
+            <div class="icon-btn-round" onclick="closePreviewModal()">
+                <i class="bi bi-arrow-left"></i>
+            </div>
+            <div id="preview-live-pill" class="badge-live" style="display:none; position:static;">
+                <span class="badge-live-pulse"></span> LIVE
+            </div>
+            <div style="display:flex; gap:8px;">
+                <div class="icon-btn-round" id="preview-fav-btn" onclick="togglePreviewFav()">
+                    <i class="bi bi-heart"></i>
+                </div>
+                <div class="icon-btn-round" id="preview-share-btn" onclick="shareCurrentWallpaper()">
+                    <i class="bi bi-share"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="preview-bottombar">
+            <div class="preview-quick-actions">
+                <div class="preview-action-item" onclick="showInfoToast()">
+                    <i class="bi bi-info-circle" style="font-size:20px;"></i>
+                    <span>Info</span>
+                </div>
+                <div class="preview-action-item" id="preview-download-action" onclick="downloadCurrentWallpaper()">
+                    <i class="bi bi-download" style="font-size:20px; color:var(--gold-light);"></i>
+                    <span>Download</span>
+                </div>
+                <div class="preview-action-item" id="preview-whatsapp-action" onclick="shareToWhatsAppCurrent()">
+                    <i class="bi bi-whatsapp" style="font-size:20px; color:#25D366;"></i>
+                    <span>WhatsApp</span>
+                </div>
+            </div>
+            <button class="btn-set-wallpaper-main" id="preview-set-btn" onclick="handlePreviewSetClick()">
+                <i class="bi bi-image"></i> Set Wallpaper
+            </button>
+        </div>
+    </div>
+
+    <!-- 5. ABOUT US MODAL -->
+    <div id="about-modal" onclick="closeAboutModal()">
+        <div class="about-card" onclick="event.stopPropagation()">
+            <div class="more-logo-frame" style="width:76px; height:76px; margin-bottom:12px;">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh-bX10dFrWfQUjQnPHiahsLtuPOAwPE130p8VBPsvFiBm1QCVVFNAFJCnyy5UT9Dv4tNG0LxMZg91pF4m8IRF7ttpmhFGQFATCTnTlL9CljnS1BcYSFsxzrvVwgw79Jr_yNxrGEBg4UHDFYWzra6uogVJfPg_V6fRaTNrAkp-Oty6jIa2HvZnyHxjOkHJf/s300/1000303466.png" alt="DevDarshan Logo">
+            </div>
+            <h3 class="font-devotional">DevDarshan</h3>
+            <span style="font-size:11px; color:var(--gold-primary); font-weight:700; display:block; margin-bottom:12px;">Hindu Wallpaper • v3.8.0</span>
+            <p>
+                Created with pure devotion for all Sanatan & ISKCON devotees worldwide. 100% Free Ultra HD & Live Wallpapers of Sri Krishna, Mahadev, Radha Rani, Gaura Nitai and Sacred Temples.
+            </p>
+            <div style="border-top:1px solid var(--border-subtle); padding-top:10px; margin-bottom:14px; font-size:11px; color:var(--text-sub);">
+                Crafted with love by <strong>Dev Santosh Studio</strong><br>
+                <a href="mailto:devsantosh.tech@gmail.com" style="color:var(--gold-primary); text-decoration:none;">devsantosh.tech@gmail.com</a>
+            </div>
+            <button class="about-btn-close" onclick="closeAboutModal()">Jai Shree Krishna</button>
+        </div>
+    </div>
+
+    <!-- 6. CUSTOM IN-APP CONFIRMATION MODAL -->
+    <div id="confirm-clear-modal" onclick="closeClearModal()">
+        <div class="confirm-card" onclick="event.stopPropagation()">
+            <i class="bi bi-trash3-fill"></i>
+            <h4 id="confirm-clear-title">Clear Favorites?</h4>
+            <p id="confirm-clear-desc">Do you really want to remove all saved favorite wallpapers?</p>
+            <div class="confirm-actions">
+                <button class="btn-confirm-no" onclick="closeClearModal()">Cancel</button>
+                <button class="btn-confirm-yes" onclick="executeConfirmedClear()">Yes, Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. APP HEADER -->
+    <header class="app-header">
+        <div class="header-brand">
+            <div class="brand-logo-wrap">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh-bX10dFrWfQUjQnPHiahsLtuPOAwPE130p8VBPsvFiBm1QCVVFNAFJCnyy5UT9Dv4tNG0LxMZg91pF4m8IRF7ttpmhFGQFATCTnTlL9CljnS1BcYSFsxzrvVwgw79Jr_yNxrGEBg4UHDFYWzra6uogVJfPg_V6fRaTNrAkp-Oty6jIa2HvZnyHxjOkHJf/s200/1000303466.png" class="brand-logo-img" alt="DevDarshan">
+            </div>
+            <div class="brand-text">
+                <h1 class="font-devotional">DevDarshan</h1>
+                <p id="header-tagline">Hindu Wallpaper • Divine Visuals</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <div class="badge-iskcon-pill" id="iskcon-toggle-btn" onclick="toggleIskconDevoteeMode()">
+                <i class="bi bi-stars"></i> <span id="iskcon-pill-text">ISKCON</span>
+            </div>
+            <div class="icon-btn-round" onclick="toggleSearchBox()">
+                <i class="bi bi-search"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Slide Search Box -->
+    <div id="search-box-bar">
+        <div class="search-inner">
+            <i class="bi bi-search" style="color:var(--text-muted); font-size:14px;"></i>
+            <input type="text" id="main-search-input" placeholder="Search Krishna, Mahadev, Radha, Prabhupada..." onkeyup="handleSearchInput(event)">
+            <i class="bi bi-x-circle" style="color:var(--text-muted); cursor:pointer;" onclick="toggleSearchBox()"></i>
+        </div>
+    </div>
+
+    <!-- ==================== VIEW 1: HOME ==================== -->
+    <div id="view-home" class="view-page active-page">
+        <!-- Banner Slider -->
+        <section class="slider-section">
+            <div class="slider-header">
+                <h3 id="darshan-banner-heading">Today's Divine Darshan</h3>
+                <span id="slider-date-text">Divine Darshan</span>
+            </div>
+            <div class="hero-carousel-container">
+                <div class="carousel-track" id="carousel-track">
+                    <div class="carousel-slide">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgiA01mOhZlGuS9DzgRRyR8vo8ZBkSS71LGeMcpcmMxvC5-LpXg84UdOF4gqIYQnjUDKKR6G2aFEw-6bgcDNNUUHIuh7BDznsz_XvP4Ea-Ptw536B77RV7aagi8gA8GidociRvkrOZyWU_21QTJudX-XrNBAjCcGgFbatJMON2iYRRA9Qw2X3wEzVza9fJp/s1000/1000310869.png" alt="Divine Darshan">
+                        <div class="carousel-gradient">
+                            <div class="slide-title font-devotional">Shree Radha Krishna</div>
+                            <div class="slide-subtitle">"Always remember Me with pure devotion and love."</div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgWEuxrF77OZSFg4kzFs0BF7eCTB7FdY-VesQ_XhKMrlUuxhb237JvHGOi4eFCsJGTYpLA7SQofdMU8gSQwH9I4U5RnlfW_MmP7tz8GgsGrzBimCFLVq63TByty2twAaDCXROGjXCL6Uqg4WOW2IC2nmhh34wNKM-RNMKPUQV5cVq2TleD9UsC68ZZPwYDm/s1000/1000310870.png" alt="Vrindavan Darshan">
+                        <div class="carousel-gradient">
+                            <div class="slide-title font-devotional">Vrindavan Bihari</div>
+                            <div class="slide-subtitle">"He who offers to Me with love will receive eternal peace."</div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgKvcK0wesFjqlqegekMORMBQXBQMxtYVzoJOo6hpJ7CPJp2P8hb6dlS7Pi16ylQaa_pwLMGQ6p8P8O627-hi_3aiZrpDMv2vUhkDEOSSNoyqVZCupPdoi146g7eNQpAJC-ticKfPDi3qp13HA_7ly6gVNl6iftOZAmYb1ZoWvsdDg4FJ68bsTDwMvWGBbZ/s1000/1000310871.png" alt="Mahadev Darshan">
+                        <div class="carousel-gradient">
+                            <div class="slide-title font-devotional">Neelkanth Mahadev</div>
+                            <div class="slide-subtitle">"Supreme peace and eternal consciousness."</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-dots" id="carousel-dots">
+                    <div class="carousel-dot active"></div>
+                    <div class="carousel-dot"></div>
+                    <div class="carousel-dot"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 🌟 DAILY DEVOTIONAL CONTENT (AUTOMATED VIA BLOGGER + GMAIL) -->
+        <section class="daily-section-wrap">
+            <div class="daily-section-header">
+                <div class="daily-title-box">
+                    <h3><i class="bi bi-sun-fill" style="color:var(--gold-primary);"></i> दैनिक दर्शन व स्टेटस</h3>
+                    <p id="daily-day-label">ताज़ा आज का पावन दर्शन व सुविचार</p>
+                </div>
+                <div class="daily-tag-today" id="daily-date-badge">
+                    <i class="bi bi-calendar-check"></i> <span id="daily-date-live-text">Today</span>
+                </div>
+            </div>
+
+            <!-- Horizontal Scrollable WhatsApp Status Style Cards -->
+            <div class="daily-cards-scroll" id="daily-cards-container">
+                <!-- Rendered dynamically by JS with fresh automated daily content -->
+            </div>
+        </section>
+
+        <!-- Circle Avatars -->
+        <div class="category-avatar-scroll" id="category-avatar-bar">
+            <div class="avatar-cat-item active" onclick="selectCategory('All', this)">
+                <div class="avatar-ring">
+                    <img class="avatar-img" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgpn93a6nN3D3bGHyPEV8vLzDeC3_9sLxjxDQg5Jhg0Yr4gOstPHeJTN-1RTr_QBUnelCC3r6LtXBJcJ5QD2LAsb0KfzYcdpCc3JgepmFABZiL6zbf4gG8_weHmcz8nXV6ru2L6fVuEp6G0DwmwSQvJ6zJNm_I3zSnDO2c3QUsWrv1ofKqT1ANVuXzIyYmr/s300/1000310959.png" alt="All">
+                </div>
+                <span class="avatar-name">All</span>
+            </div>
+            <div class="avatar-cat-item" onclick="selectCategory('Live', this)">
+                <div class="avatar-ring" style="border-color:var(--live-crimson);">
+                    <img class="avatar-img" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjy5ZlHX1gTAF1hTjPmFd_FaL7XihCb1C8ywrGyMWmO-uIiwL-uM0ZeBcZsl7HbVQarwDh9C_a3IlbpmyAQ6DNIlbnO8fonTDMHG67hXesfQ4Lt7TZMv9qlf04kIyk5YI-3JiWVmyQCx_6dm_sjrhiuH1GqHhSjMnc3mp8cWXVEU5z4RiDoebEN8kY5qrwa/s1254/1000310986.png" alt="Live">
+                </div>
+                <span class="avatar-name" style="color:var(--live-crimson);">Live</span>
+            </div>
+            <div class="avatar-cat-item" onclick="selectCategory('Krishna', this)">
+                <div class="avatar-ring">
+                    <img class="avatar-img" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhixqmF6iJkoVWEdfgTp5N84oh1HgxhvZZUDDah4-OHD_JX66zlRvcCW3K8_pub9eurfPg5tf1D7R2m8k0JnKIzs75jH4KxnjtE4KP5EbUUgRoO-7BzkMTzjrk4VoU-WE0EZqf_pDt7MRogDynAdi5IywSX-35DB7dUZIn5dFvjijHvuKWVpmYR10PFsmIi/s1254/1000310957.png" alt="Krishna">
+                </div>
+                <span class="avatar-name">Krishna</span>
+            </div>
+            <div class="avatar-cat-item" onclick="selectCategory('Radha', this)">
+                <div class="avatar-ring">
+                    <img class="avatar-img" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh5C30e6vVYO9Qzaihb8rw03t71VZ1L3Ni0QoFIPK54nv3IVls0DU17A3WWhr0BA2eBWtTYfP5BZnKgQwtq-Q9SMrDE34NzanfS1ulbnh0AsrMV0SYWbQHJeiUzAMo36DP7Mhprl57jMMg_kkf0mVURknnI78n_0J3Fskmo3LnkjVn6f6FWEQwt4DHQeHY2/s1254/1000310976.png" alt="Radha">
+                </div>
+                <span class="avatar-name">Radha Krishna</span>
+            </div>
+            <div class="avatar-cat-item" onclick="selectCategory('Mahadev', this)">
+                <div class="avatar-ring">
+                    <img class="avatar-img" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgXF4hvQ3H8qcLTckAdz1ElDyeqM9Z_lyV7hg6ufuYJm3_hwtMaEJi2Om4BET6dtipeNqGmi7Ql_cC4ja0ym8KfPCCBQzz7jO-_34IY6vYAq2LTSRbORiUFBwEyY_g7ckYqp5hWH1b9KTNzdJe7VQKoEo1ZjWGdQPAu-j6xloziRAsaBkY2xAIf6wC8kH8e/s1254/1000310958.png" alt="Mahadev">
+                </div>
+                <span class="avatar-name">Mahadev</span>
+            </div>
+            <div class="avatar-cat-item" onclick="selectCategory('Gaura Nitai', this)">
+                <div class="avatar-ring">
+                    <img class="avatar-img" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhAt48a0fP8NyaZ_s0fiCbvu8Oe4IJVe03HziUuJxWS7r15Plx84SMJMbuZT4Ce3LFcuSzquAiZjYCP3cmlIvzxOANTJ5yyC5Q4oLr2RmBCuejlGYFCZvpE8BD0yE0qQbARhPOb3Af79_tH70o4GSEzHLWNgushqt4TxsXF6d-_Zi-84P0OXaIFGw4FeHU/s1254/1000310978.png" alt="Gaura Nitai">
+                </div>
+                <span class="avatar-name">Gaura Nitai</span>
+            </div>
+            <div class="avatar-cat-item" onclick="selectCategory('Jagannath', this)">
+                <div class="avatar-ring">
+                    <img class="avatar-img" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi8BFx8CvJhUKCFNDkgFTva15heEdCyRDCz414G-WRBUQVKxTPEAIkAiDqTW0QVFdlq9zp84s3icnPWpNdBXs3w6kR-WC1N41XUEfc5LBY7dR-_ujY0Jlx9ckP1gqH2FQWy71d7vFPxFjIb2Z32ZqIgcB1gaEjRTvVRMVmNczpUKhMCup_c-Tk2RqEP8s_y/s1254/1000310983.png" alt="Jagannath">
+                </div>
+                <span class="avatar-name">Jagannath</span>
+            </div>
+            <div class="avatar-cat-item" onclick="selectCategory('Prabhupada', this)">
+                <div class="avatar-ring">
+                    <img class="avatar-img" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi1U6DetcRxLRAOyT1aVvuxMARmdahvrZ4TVBMHc5FtSjLP0yca0t9kKVbjOTtnH3Xc9SXjPnoWRpywAhBgk6f0Nqfq-8ToeEoWmQKLD97KK0tYHfHlQEiI_5dkn-HZOpLH3y7nZQzwenbDppOvjfhwVOa-fiySV26laidOGBcMcIDWFkuCU0J8AtLhkV24/s1254/1000310985.png" alt="Prabhupada">
+                </div>
+                <span class="avatar-name">Prabhupada</span>
+            </div>
+            <div class="avatar-cat-item" onclick="selectCategory('Narasimha', this)">
+                <div class="avatar-ring">
+                    <img class="avatar-img" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjgVOCL9uSsfLO29vUxGaTuo3Q2pFrFbpceZ1Ly8YT-UZ5PrHzLwKmdwQBN8bB65WDYqqXd0XCpgwnWKC3KBbP5uIVJHqVetzRaRgwB0TIFKO-4A2TdzE4lLqiYAzwZwEsHkPqNoz9Gl8bQc3be_SmEtSTvV9GQArElowgIzDWvvSx_iAHsQTcwGhiV1su5/s1254/1000310984.png" alt="Narasimha">
+                </div>
+                <span class="avatar-name">Narasimha</span>
+            </div>
+            <div class="avatar-cat-item" onclick="selectCategory('Temples', this)">
+                <div class="avatar-ring">
+                    <img class="avatar-img" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj7SxrH2-5dKLgHANgcCN2BxXSYZ_6No0vgNa1QeUXp3hRKQJDymCoLrxHT7Y3wf-25Teua7HRJcVn5JRVnLkWi6IHo75BkJLnV7Zrkd6Eb9xgCX6a6qhQJIOty2Zm7tL2_n2OYuZf2tyuDZ316O_JKjfPOGVMP4q7lkchTG2paEpKEJ7eJ1zl3Q7feEPcV/s1254/1000310987.png" alt="Temples">
+                </div>
+                <span class="avatar-name">Temples</span>
+            </div>
+        </div>
+
+        <div class="section-bar">
+            <h2 id="home-grid-title">Latest Wallpapers</h2>
+            <a href="javascript:void(0)" onclick="switchNav('explore')">See All <i class="bi bi-chevron-right"></i></a>
+        </div>
+
+        <div class="wallpaper-grid" id="home-wallpaper-grid"></div>
+    </div>
+
+    <!-- ==================== VIEW 2: EXPLORE ==================== -->
+    <div id="view-explore" class="view-page">
+        <div class="section-bar" style="padding-top:14px;">
+            <h2 class="font-devotional" style="font-size:18px;">Explore Divine Visuals</h2>
+        </div>
+
+        <div class="filter-tab-group">
+            <div class="filter-tab active" onclick="setExploreFilter('all', this)">All</div>
+            <div class="filter-tab" onclick="setExploreFilter('live', this)"><i class="bi bi-play-circle me-1"></i> Live</div>
+            <div class="filter-tab" onclick="setExploreFilter('normal', this)">Normal</div>
+        </div>
+
+        <div class="wallpaper-grid" id="explore-wallpaper-grid"></div>
+    </div>
+
+    <!-- ==================== VIEW 3: FAVORITES ==================== -->
+    <div id="view-favorites" class="view-page">
+        <div class="section-bar" style="padding-top:14px;">
+            <div>
+                <h2 class="font-devotional" style="font-size:18px;">Saved Favorites</h2>
+                <p style="font-size:11px; color:var(--text-muted); margin:0;">Wallpapers you blessed with a heart</p>
+            </div>
+            <button class="pill-btn-set" style="padding:5px 14px; font-size:12px;" onclick="openClearModal('favorites')">Clear All</button>
+        </div>
+
+        <div id="fav-empty-state" class="empty-placeholder" style="display:none;">
+            <i class="bi bi-heart-pulse"></i>
+            <h4>No Favorites Yet</h4>
+            <p style="font-size:12px; color:var(--text-muted);">Tap the heart icon on any wallpaper to add it here.</p>
+        </div>
+
+        <div class="wallpaper-grid" id="favorites-wallpaper-grid"></div>
+    </div>
+
+    <!-- ==================== VIEW 4: FESTIVALS ==================== -->
+    <div id="view-festivals" class="view-page" style="padding:14px 18px;">
+        <div style="margin-bottom:16px;">
+            <h2 class="font-devotional" style="font-size:19px; color:#fff;">Festivals Collection</h2>
+            <p style="font-size:11.5px; color:var(--text-muted); margin:0;">Auspicious visuals for holy celebrations</p>
+        </div>
+
+        <!-- 1. Radhashtami -->
+        <div class="festival-card" onclick="filterByFestival('Radhashtami')">
+            <div class="fest-left-group">
+                <img class="fest-card-logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh5C30e6vVYO9Qzaihb8rw03t71VZ1L3Ni0QoFIPK54nv3IVls0DU17A3WWhr0BA2eBWtTYfP5BZnKgQwtq-Q9SMrDE34NzanfS1ulbnh0AsrMV0SYWbQHJeiUzAMo36DP7Mhprl57jMMg_kkf0mVURknnI78n_0J3Fskmo3LnkjVn6f6FWEQwt4DHQeHY2/s1254/1000310976.png" alt="Radhashtami">
+                <div class="fest-info">
+                    <h4>Radhashtami</h4>
+                    <p><i class="bi bi-heart-fill" style="color:var(--live-crimson);"></i> Supreme Devotion of Radharani</p>
+                </div>
+            </div>
+            <div class="fest-badge">Special</div>
+        </div>
+
+        <!-- 2. Sri Krishna Janmashtami -->
+        <div class="festival-card" onclick="filterByFestival('Janmashtami')">
+            <div class="fest-left-group">
+                <img class="fest-card-logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhixqmF6iJkoVWEdfgTp5N84oh1HgxhvZZUDDah4-OHD_JX66zlRvcCW3K8_pub9eurfPg5tf1D7R2m8k0JnKIzs75jH4KxnjtE4KP5EbUUgRoO-7BzkMTzjrk4VoU-WE0EZqf_pDt7MRogDynAdi5IywSX-35DB7dUZIn5dFvjijHvuKWVpmYR10PFsmIi/s1254/1000310957.png" alt="Janmashtami">
+                <div class="fest-info">
+                    <h4>Sri Krishna Janmashtami</h4>
+                    <p><i class="bi bi-stars"></i> Appearance Day of Lord Krishna</p>
+                </div>
+            </div>
+            <div class="fest-badge">Special</div>
+        </div>
+
+        <!-- 3. Gaura Purnima -->
+        <div class="festival-card" onclick="filterByFestival('Gaura Purnima')">
+            <div class="fest-left-group">
+                <img class="fest-card-logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhAt48a0fP8NyaZ_s0fiCbvu8Oe4IJVe03HziUuJxWS7r15Plx84SMJMbuZT4Ce3LFcuSzquAiZjYCP3cmlIvzxOANTJ5yyC5Q4oLr2RmBCuejlGYFCZvpE8BD0yE0qQbARhPOb3Af79_tH70o4GSEzHLWNgushqt4TxsXF6d-_Zi-84P0OXaIFGw4FeHU/s1254/1000310978.png" alt="Gaura Purnima">
+                <div class="fest-info">
+                    <h4>Gaura Purnima</h4>
+                    <p><i class="bi bi-sun-fill" style="color:var(--iskcon-saffron);"></i> Appearance of Sri Chaitanya Mahaprabhu</p>
+                </div>
+            </div>
+            <div class="fest-badge">ISKCON</div>
+        </div>
+
+        <!-- 4. Maha Shivratri -->
+        <div class="festival-card" onclick="filterByFestival('Mahadev')">
+            <div class="fest-left-group">
+                <img class="fest-card-logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgXF4hvQ3H8qcLTckAdz1ElDyeqM9Z_lyV7hg6ufuYJm3_hwtMaEJi2Om4BET6dtipeNqGmi7Ql_cC4ja0ym8KfPCCBQzz7jO-_34IY6vYAq2LTSRbORiUFBwEyY_g7ckYqp5hWH1b9KTNzdJe7VQKoEo1ZjWGdQPAu-j6xloziRAsaBkY2xAIf6wC8kH8e/s1254/1000310958.png" alt="Maha Shivratri">
+                <div class="fest-info">
+                    <h4>Maha Shivratri</h4>
+                    <p><i class="bi bi-moon-stars"></i> Neelkanth Mahadev Blessings</p>
+                </div>
+            </div>
+            <div class="fest-badge">Divine</div>
+        </div>
+
+        <!-- 5. Sri Ram Navami -->
+        <div class="festival-card" onclick="filterByFestival('Ram Navami')">
+            <div class="fest-left-group">
+                <img class="fest-card-logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgpn93a6nN3D3bGHyPEV8vLzDeC3_9sLxjxDQg5Jhg0Yr4gOstPHeJTN-1RTr_QBUnelCC3r6LtXBJcJ5QD2LAsb0KfzYcdpCc3JgepmFABZiL6zbf4gG8_weHmcz8nXV6ru2L6fVuEp6G0DwmwSQvJ6zJNm_I3zSnDO2c3QUsWrv1ofKqT1ANVuXzIyYmr/s300/1000310959.png" alt="Ram Navami">
+                <div class="fest-info">
+                    <h4>Sri Ram Navami</h4>
+                    <p><i class="bi bi-sun-fill" style="color:var(--gold-primary);"></i> Appearance Day of Maryada Purushottam</p>
+                </div>
+            </div>
+            <div class="fest-badge">Divine</div>
+        </div>
+
+        <!-- 6. Deepawali -->
+        <div class="festival-card" onclick="filterByFestival('Diwali')">
+            <div class="fest-left-group">
+                <img class="fest-card-logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj7SxrH2-5dKLgHANgcCN2BxXSYZ_6No0vgNa1QeUXp3hRKQJDymCoLrxHT7Y3wf-25Teua7HRJcVn5JRVnLkWi6IHo75BkJLnV7Zrkd6Eb9xgCX6a6qhQJIOty2Zm7tL2_n2OYuZf2tyuDZ316O_JKjfPOGVMP4q7lkchTG2paEpKEJ7eJ1zl3Q7feEPcV/s1254/1000310987.png" alt="Diwali">
+                <div class="fest-info">
+                    <h4>Deepawali Mahotsav</h4>
+                    <p><i class="bi bi-fire" style="color:#FFA500;"></i> Festival of Sacred Lights & Mahalakshmi</p>
+                </div>
+            </div>
+            <div class="fest-badge">Special</div>
+        </div>
+    </div>
+
+    <!-- ==================== VIEW 5: MORE / SETTINGS ==================== -->
+    <div id="view-more" class="view-page">
+        <div class="more-hero">
+            <div class="more-logo-frame">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh-bX10dFrWfQUjQnPHiahsLtuPOAwPE130p8VBPsvFiBm1QCVVFNAFJCnyy5UT9Dv4tNG0LxMZg91pF4m8IRF7ttpmhFGQFATCTnTlL9CljnS1BcYSFsxzrvVwgw79Jr_yNxrGEBg4UHDFYWzra6uogVJfPg_V6fRaTNrAkp-Oty6jIa2HvZnyHxjOkHJf/s300/1000303466.png" alt="DevDarshan">
+            </div>
+            <h2 class="font-devotional" style="font-size:20px; color:#fff;">DevDarshan</h2>
+            <p style="font-size:12px; color:var(--gold-primary); font-weight:600; margin-top:2px;">Hindu Wallpaper • Divine Darshan 🌿</p>
+            <span style="font-size:10.5px; color:var(--text-sub); display:block; margin-top:4px;">100% Free • No Subscription • Just Devotion</span>
+        </div>
+
+        <div class="more-menu-group">
+            <div class="more-menu-item" onclick="toggleIskconDevoteeMode()">
+                <div class="more-menu-left">
+                    <i class="bi bi-stars" style="color:var(--iskcon-saffron);"></i>
+                    <span id="iskcon-menu-title">ISKCON Special Darshan Mode</span>
+                </div>
+                <span id="iskcon-status-badge" style="font-size:11px; font-weight:700; color:var(--gold-primary);">OFF</span>
+            </div>
+            <div class="more-menu-item" onclick="triggerNativeShare()">
+                <div class="more-menu-left">
+                    <i class="bi bi-share-fill"></i>
+                    <span>Share App with Family & Devotees</span>
+                </div>
+                <i class="bi bi-chevron-right" style="color:var(--text-sub); font-size:12px;"></i>
+            </div>
+            <div class="more-menu-item" onclick="triggerNativeRate()">
+                <div class="more-menu-left">
+                    <i class="bi bi-star-fill"></i>
+                    <span>Rate Us on Play Store</span>
+                </div>
+                <i class="bi bi-chevron-right" style="color:var(--text-sub); font-size:12px;"></i>
+            </div>
+            <div class="more-menu-item" onclick="triggerMoreApps()">
+                <div class="more-menu-left">
+                    <i class="bi bi-grid-fill"></i>
+                    <span>More Devotional Apps</span>
+                </div>
+                <i class="bi bi-chevron-right" style="color:var(--text-sub); font-size:12px;"></i>
+            </div>
+            <div class="more-menu-item" onclick="openAboutModal()">
+                <div class="more-menu-left">
+                    <i class="bi bi-info-circle-fill"></i>
+                    <span>About Us & Mission</span>
+                </div>
+                <i class="bi bi-chevron-right" style="color:var(--text-sub); font-size:12px;"></i>
+            </div>
+            <div class="more-menu-item" onclick="openClearModal('all')">
+                <div class="more-menu-left">
+                    <i class="bi bi-trash3"></i>
+                    <span>Clear Favorites & Cache</span>
+                </div>
+                <i class="bi bi-chevron-right" style="color:var(--text-sub); font-size:12px;"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- INITIAL LOADER -->
+    <div id="loader-overlay">
+        <div class="lotus-spinner"></div>
+        <div style="color:var(--gold-light); font-size:12px; letter-spacing:1px; font-weight:600;">LOADING SACRED DARSHAN...</div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" id="nav-home" onclick="switchNav('home')">
+            <i class="bi bi-house-door-fill"></i>
+            <span>Home</span>
+        </div>
+        <div class="nav-item" id="nav-explore" onclick="switchNav('explore')">
+            <i class="bi bi-compass"></i>
+            <span>Explore</span>
+        </div>
+        <div class="nav-item" id="nav-favorites" onclick="switchNav('favorites')">
+            <i class="bi bi-heart"></i>
+            <span>Favorites</span>
+        </div>
+        <div class="nav-item" id="nav-festivals" onclick="switchNav('festivals')">
+            <i class="bi bi-calendar-event"></i>
+            <span>Festivals</span>
+        </div>
+        <div class="nav-item" id="nav-more" onclick="switchNav('more')">
+            <i class="bi bi-grid"></i>
+            <span>More</span>
+        </div>
+    </nav>
+
+    <!-- REAL-TIME LOGIC ENGINE WITH AUTOMATED BLOGGER INTEGRATION & WHATSAPP FEEDBACK -->
+    <script>
+        const BLOG_ID = '2655100361109264849';
+        const API_KEY = 'AIzaSyAIEywwPuNLMs73jjxHQjSAg0C1L3niXHQ';
+        const PLAY_STORE_URL = "https://play.google.com/store/apps/dev?id=5695878942959714469";
+
+        let favorites = JSON.parse(localStorage.getItem('wallhub_favs')) || [];
+        let iskconMode = JSON.parse(localStorage.getItem('wallhub_iskcon_mode')) || false;
+        let navHistoryStack = ['home'];
+        let clearTargetAction = 'favorites';
+
+        let loadedWallpapers = [];
+        let selectedWallpaperUrl = "";
+        let currentPreviewItem = null;
+        let activeCategory = 'All';
+        let exploreFilterType = 'all';
+
+        let currentSlideIdx = 0;
+        let slideInterval = null;
+
+        // In-memory cache for blobs to make sharing and setting instant
+        const memoryBlobCache = new Map();
+
+        // ==================== REAL-TIME WHATSAPP-STYLE ACTION FEEDBACK ====================
+        let actionPillTimer = null;
+        function showRealtimeAction(msg, isDone = false) {
+            const pill = document.getElementById('action-status-pill');
+            const spinner = document.getElementById('action-spinner');
+            const check = document.getElementById('action-check-icon');
+            const text = document.getElementById('action-status-text');
+
+            if (!pill || !text) return;
+            clearTimeout(actionPillTimer);
+
+            text.innerText = msg;
+            if (isDone) {
+                if (spinner) spinner.style.display = 'none';
+                if (check) check.style.display = 'inline-block';
+                actionPillTimer = setTimeout(() => {
+                    pill.classList.remove('show');
+                }, 1800);
+            } else {
+                if (spinner) spinner.style.display = 'inline-block';
+                if (check) check.style.display = 'none';
+            }
+
+            pill.classList.add('show');
+        }
+
+        function hideRealtimeAction() {
+            const pill = document.getElementById('action-status-pill');
+            if (pill) pill.classList.remove('show');
+        }
+
+        // ==================== 0. SENIOR-GRADE INDEXEDDB STORAGE ENGINE ====================
+        const DB_NAME = 'DevDarshan_Storage_v1';
+        const DB_VERSION = 1;
+        let dbInstance = null;
+
+        function initIndexedDB() {
+            return new Promise((resolve) => {
+                if (!window.indexedDB) {
+                    resolve(null);
+                    return;
+                }
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                request.onupgradeneeded = function(e) {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains('wallpapers')) {
+                        db.createObjectStore('wallpapers', { keyPath: 'category' });
+                    }
+                    if (!db.objectStoreNames.contains('imageCache')) {
+                        db.createObjectStore('imageCache', { keyPath: 'url' });
+                    }
+                };
+                request.onsuccess = function(e) {
+                    dbInstance = e.target.result;
+                    resolve(dbInstance);
+                };
+                request.onerror = function() {
+                    resolve(null);
+                };
+            });
+        }
+
+        function saveToIndexedDB(storeName, data) {
+            if (!dbInstance) return;
+            try {
+                const tx = dbInstance.transaction(storeName, 'readwrite');
+                const store = tx.objectStore(storeName);
+                store.put(data);
+            } catch(e) {}
+        }
+
+        function getFromIndexedDB(storeName, key) {
+            return new Promise((resolve) => {
+                if (!dbInstance) {
+                    resolve(null);
+                    return;
+                }
+                try {
+                    const tx = dbInstance.transaction(storeName, 'readonly');
+                    const store = tx.objectStore(storeName);
+                    const request = store.get(key);
+                    request.onsuccess = function(e) {
+                        resolve(e.target.result ? (e.target.result.data || e.target.result) : null);
+                    };
+                    request.onerror = function() {
+                        resolve(null);
+                    };
+                } catch(e) {
+                    resolve(null);
+                }
+            });
+        }
+
+        function clearEntireIndexedDB() {
+            if (!dbInstance) return;
+            try {
+                const tx1 = dbInstance.transaction('wallpapers', 'readwrite');
+                tx1.objectStore('wallpapers').clear();
+                const tx2 = dbInstance.transaction('imageCache', 'readwrite');
+                tx2.objectStore('imageCache').clear();
+            } catch(e) {}
+        }
+
+        const FALLBACK_WALLPAPERS = [
+            {
+                id: 'w1',
+                title: 'Lord Krishna Playing Flute',
+                category: 'Krishna',
+                thumb: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1000&q=85',
+                hd: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1600&q=90',
+                isLive: false
+            },
+            {
+                id: 'w2',
+                title: 'Radha Krishna Divine Flute (Live)',
+                category: 'Radha',
+                thumb: 'https://images.unsplash.com/photo-1609342122563-a43ac8917a3a?w=1000&q=85',
+                hd: 'https://images.unsplash.com/photo-1609342122563-a43ac8917a3a?w=1600&q=90',
+                isLive: true,
+                liveMedia: 'https://images.unsplash.com/photo-1609342122563-a43ac8917a3a?w=1600&q=90'
+            },
+            {
+                id: 'w3',
+                title: 'Srila Prabhupada - Founder Acharya',
+                category: 'Prabhupada',
+                thumb: 'https://images.unsplash.com/photo-1545063914-a1a6ec821c88?w=1000&q=85',
+                hd: 'https://images.unsplash.com/photo-1545063914-a1a6ec821c88?w=1600&q=90',
+                isLive: false
+            },
+            {
+                id: 'w4',
+                title: 'Jagannath Puri Rath Darshan',
+                category: 'Jagannath',
+                thumb: 'https://images.unsplash.com/photo-1626244510103-68d8efca9282?w=1000&q=85',
+                hd: 'https://images.unsplash.com/photo-1626244510103-68d8efca9282?w=1600&q=90',
+                isLive: false
+            },
+            {
+                id: 'w5',
+                title: 'Sri Sri Gaura Nitai Mayapur (Live)',
+                category: 'Gaura Nitai',
+                thumb: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1000&q=85',
+                hd: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1600&q=90',
+                isLive: true,
+                liveMedia: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1600&q=90'
+            }
+        ];
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            initSliderDate();
+            startHeroAutoSlider();
+            applyIskconDevoteeModeUI(false);
+            
+            // Fast Boot: Initialize DB, fetch automated daily content and category wallpapers
+            await initIndexedDB();
+            initDailyDevotionalContent();
+            fetchWallpapers('All');
+        });
+
+        function initSliderDate() {
+            const dateObj = new Date();
+            const formatted = dateObj.toLocaleDateString('hi-IN', { weekday: 'short', day: 'numeric', month: 'short' });
+            const dateEl = document.getElementById('slider-date-text');
+            if (dateEl) dateEl.innerText = formatted || "आज का पावन दर्शन";
+        }
+
+        // ==================== AUTOMATED BLOGGER DAILY DEVOTIONAL ENGINE ====================
+        // Designed for ChatGPT + Gmail to Blogger automation with date-smart bypass
+        async function initDailyDevotionalContent() {
+            const dateObj = new Date();
+            const daysHindi = ['रविवार', 'सोमवार', 'मंगलवार', 'बुधवार', 'गुरुवार', 'शुक्रवार', 'शनिवार'];
+            const currentDayHindi = daysHindi[dateObj.getDay()];
+            const formattedDate = dateObj.toLocaleDateString('hi-IN', { day: 'numeric', month: 'short' });
+            const todayKey = `dd_daily_${dateObj.getFullYear()}_${dateObj.getMonth()+1}_${dateObj.getDate()}`;
+
+            const liveText = document.getElementById('daily-date-live-text');
+            const dayLabel = document.getElementById('daily-day-label');
+            if (liveText) liveText.innerText = `${currentDayHindi}, ${formattedDate}`;
+            if (dayLabel) dayLabel.innerText = `विशेष ${currentDayHindi} दर्शन व WhatsApp स्टेटस`;
+
+            let curatedItems = getCuratedDailyFallbacks(currentDayHindi, dateObj.getDay());
+
+            // 1. FAST PATH: Check if today's automated daily post is already cached (Bypass Blogger network!)
+            let cachedDaily = localStorage.getItem(todayKey);
+            if (cachedDaily) {
+                try {
+                    const parsedDaily = JSON.parse(cachedDaily);
+                    if (parsedDaily && parsedDaily.length > 0) {
+                        renderDailyCards([...parsedDaily, ...curatedItems]);
+                        return;
+                    }
+                } catch(e) {}
+            }
+
+            // Render default curated cards instantly so user sees zero delay
+            renderDailyCards(curatedItems);
+
+            // 2. NETWORK PATH (AUTOMATION BYPASS): Fetch ONLY the 'Daily' label posts (maxResults=3)
+            // This bypasses the old 50+ blog posts completely, saving 95% bandwidth!
+            const dailyApiUrl = `https://www.googleapis.com/blogger/v3/blogs/${BLOG_ID}/posts?key=${API_KEY}&labels=Daily&maxResults=3`;
+
+            fetch(dailyApiUrl)
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.items && data.items.length > 0) {
+                        const automatedItems = [];
+                        data.items.forEach((post, idx) => {
+                            let tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = post.content || '';
+                            let imgTag = tempDiv.querySelector('img');
+                            if (imgTag && imgTag.src) {
+                                let imgUrl = imgTag.src;
+                                if (imgUrl.includes('/s') || imgUrl.includes('/w')) {
+                                    imgUrl = imgUrl.replace(/\/s\d+.*?\//, "/s800-rw/").replace(/\/w\d+-h\d+.*?\//, "/w800-rw/");
+                                }
+                                automatedItems.push({
+                                    id: 'daily_auto_' + (post.id || idx),
+                                    badge: '🌟 आज का ताज़ा दर्शन',
+                                    title: post.title || 'आज का पावन दर्शन',
+                                    sub: 'लाइव मंदिर दर्शन',
+                                    image: imgUrl,
+                                    mantra: post.title ? `🌸 ${post.title} 🌸 आज का पावन दर्शन प्राप्त करें।` : 'जय श्री कृष्ण! आज का पावन दर्शन प्राप्त करें।'
+                                });
+                            }
+                        });
+
+                        if (automatedItems.length > 0) {
+                            try {
+                                localStorage.setItem(todayKey, JSON.stringify(automatedItems));
+                            } catch(e) {}
+                            renderDailyCards([...automatedItems, ...curatedItems]);
+                        }
+                    }
+                })
+                .catch(() => {
+                    // Fail silently, curated cards are already shown smoothly
+                });
+        }
+
+        function getCuratedDailyFallbacks(currentDayHindi, dayIdx) {
+            let daySpecial = {
+                badge: `आज ${currentDayHindi} विशेष`,
+                title: 'महादेव दिव्य दर्शन',
+                sub: 'ॐ नमः शिवाय',
+                image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgKvcK0wesFjqlqegekMORMBQXBQMxtYVzoJOo6hpJ7CPJp2P8hb6dlS7Pi16ylQaa_pwLMGQ6p8P8O627-hi_3aiZrpDMv2vUhkDEOSSNoyqVZCupPdoi146g7eNQpAJC-ticKfPDi3qp13HA_7ly6gVNl6iftOZAmYb1ZoWvsdDg4FJ68bsTDwMvWGBbZ/s1000/1000310871.png',
+                mantra: 'ॐ नमः शिवाय! सावन-सोमवार महादेव आपके समस्त कष्ट हरें।'
+            };
+
+            if (dayIdx === 2) {
+                daySpecial = {
+                    badge: 'मंगलवार विशेष',
+                    title: 'श्री हनुमान जी दर्शन',
+                    sub: 'जय श्री राम • संकटमोचन',
+                    image: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1000&q=85',
+                    mantra: 'जय श्री राम! संकट कटे मिटे सब पीरा, जो सुमिरै हनुमत बलबीरा।'
+                };
+            } else if (dayIdx === 3) {
+                daySpecial = {
+                    badge: 'बुधवार विशेष',
+                    title: 'विघ्नहर्ता गणेश',
+                    sub: 'गणपति बप्पा मोरया',
+                    image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1000&q=85',
+                    mantra: 'वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ। निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा॥'
+                };
+            } else if (dayIdx === 4) {
+                daySpecial = {
+                    badge: 'गुरुवार विशेष',
+                    title: 'श्री हरि विष्णु दर्शन',
+                    sub: 'ॐ नमो भगवते वासुदेवाय',
+                    image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgWEuxrF77OZSFg4kzFs0BF7eCTB7FdY-VesQ_XhKMrlUuxhb237JvHGOi4eFCsJGTYpLA7SQofdMU8gSQwH9I4U5RnlfW_MmP7tz8GgsGrzBimCFLVq63TByty2twAaDCXROGjXCL6Uqg4WOW2IC2nmhh34wNKM-RNMKPUQV5cVq2TleD9UsC68ZZPwYDm/s1000/1000310870.png',
+                    mantra: 'ॐ नमो भगवते वासुदेवाय! श्री हरि आपके घर में सुख-समृद्धि लाएं।'
+                };
+            } else if (dayIdx === 5) {
+                daySpecial = {
+                    badge: 'शुक्रवार विशेष',
+                    title: 'श्री लाडली जू राधा',
+                    sub: 'राधे राधे • प्रेम भक्ति',
+                    image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh5C30e6vVYO9Qzaihb8rw03t71VZ1L3Ni0QoFIPK54nv3IVls0DU17A3WWhr0BA2eBWtTYfP5BZnKgQwtq-Q9SMrDE34NzanfS1ulbnh0AsrMV0SYWbQHJeiUzAMo36DP7Mhprl57jMMg_kkf0mVURknnI78n_0J3Fskmo3LnkjVn6f6FWEQwt4DHQeHY2/s1254/1000310976.png',
+                    mantra: 'राधे राधे! श्री किशोरी जी की अहैतुकी कृपा आप पर सदा बनी रहे।'
+                };
+            } else if (dayIdx === 6) {
+                daySpecial = {
+                    badge: 'शनिवार विशेष',
+                    title: 'श्री शनिदेव व हनुमान',
+                    sub: 'ॐ शं शनैश्चराय नमः',
+                    image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgXF4hvQ3H8qcLTckAdz1ElDyeqM9Z_lyV7hg6ufuYJm3_hwtMaEJi2Om4BET6dtipeNqGmi7Ql_cC4ja0ym8KfPCCBQzz7jO-_34IY6vYAq2LTSRbORiUFBwEyY_g7ckYqp5hWH1b9KTNzdJe7VQKoEo1ZjWGdQPAu-j6xloziRAsaBkY2xAIf6wC8kH8e/s1254/1000310958.png',
+                    mantra: 'ॐ शं शनैश्चराय नमः! मारुति नंदन हनुमान जी समस्त संकटों से रक्षा करें।'
+                };
+            } else if (dayIdx === 0) {
+                daySpecial = {
+                    badge: 'रविवार विशेष',
+                    title: 'राधा माधव दिव्य छवि',
+                    sub: 'जय श्री कृष्ण • आनंद',
+                    image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgiA01mOhZlGuS9DzgRRyR8vo8ZBkSS71LGeMcpcmMxvC5-LpXg84UdOF4gqIYQnjUDKKR6G2aFEw-6bgcDNNUUHIuh7BDznsz_XvP4Ea-Ptw536B77RV7aagi8gA8GidociRvkrOZyWU_21QTJudX-XrNBAjCcGgFbatJMON2iYRRA9Qw2X3wEzVza9fJp/s1000/1000310869.png',
+                    mantra: 'जय श्री कृष्ण! आपका आज का दिन अत्यंत शुभ, पावन और आनंदमय हो।'
+                };
+            }
+
+            return [
+                {
+                    id: 'daily_gm_1',
+                    badge: '🌸 शुभ प्रभात',
+                    title: 'शुभ प्रभात दर्शन',
+                    sub: 'प्रभु नाम सुमिरन',
+                    image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhixqmF6iJkoVWEdfgTp5N84oh1HgxhvZZUDDah4-OHD_JX66zlRvcCW3K8_pub9eurfPg5tf1D7R2m8k0JnKIzs75jH4KxnjtE4KP5EbUUgRoO-7BzkMTzjrk4VoU-WE0EZqf_pDt7MRogDynAdi5IywSX-35DB7dUZIn5dFvjijHvuKWVpmYR10PFsmIi/s1254/1000310957.png',
+                    mantra: 'शुभ प्रभात! 🌸 प्रभु के पावन नाम के साथ अपने दिन की शुरुआत करें।'
+                },
+                {
+                    id: 'daily_special',
+                    badge: daySpecial.badge,
+                    title: daySpecial.title,
+                    sub: daySpecial.sub,
+                    image: daySpecial.image,
+                    mantra: daySpecial.mantra
+                },
+                {
+                    id: 'daily_vichar',
+                    badge: '✨ आज का सुविचार',
+                    title: 'दिव्य प्रेरक विचार',
+                    sub: 'कर्म ही पूजा है',
+                    image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi1U6DetcRxLRAOyT1aVvuxMARmdahvrZ4TVBMHc5FtSjLP0yca0t9kKVbjOTtnH3Xc9SXjPnoWRpywAhBgk6f0Nqfq-8ToeEoWmQKLD97KK0tYHfHlQEiI_5dkn-HZOpLH3y7nZQzwenbDppOvjfhwVOa-fiySV26laidOGBcMcIDWFkuCU0J8AtLhkV24/s1254/1000310985.png',
+                    mantra: 'आज का सुविचार: जो ईश्वर के विधान में संतुष्ट रहता है, उसका मन सदैव शांत और प्रसन्न रहता है।'
+                },
+                {
+                    id: 'daily_gita',
+                    badge: '📜 श्रीमद्भगवद्गीता',
+                    title: 'गीता अमृत उपदेश',
+                    sub: 'कर्मण्येवाधिकारस्ते...',
+                    image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgiA01mOhZlGuS9DzgRRyR8vo8ZBkSS71LGeMcpcmMxvC5-LpXg84UdOF4gqIYQnjUDKKR6G2aFEw-6bgcDNNUUHIuh7BDznsz_XvP4Ea-Ptw536B77RV7aagi8gA8GidociRvkrOZyWU_21QTJudX-XrNBAjCcGgFbatJMON2iYRRA9Qw2X3wEzVza9fJp/s1000/1000310869.png',
+                    mantra: 'श्रीमद्भगवद्गीता ज्ञान: "कर्म करो, फल की चिंता मत करो।" निष्काम कर्म ही मुक्ति का मार्ग है।'
+                },
+                {
+                    id: 'daily_gn',
+                    badge: '🌙 शुभ रात्रि',
+                    title: 'शयन दर्शन',
+                    sub: 'शांति व विश्राम',
+                    image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgKvcK0wesFjqlqegekMORMBQXBQMxtYVzoJOo6hpJ7CPJp2P8hb6dlS7Pi16ylQaa_pwLMGQ6p8P8O627-hi_3aiZrpDMv2vUhkDEOSSNoyqVZCupPdoi146g7eNQpAJC-ticKfPDi3qp13HA_7ly6gVNl6iftOZAmYb1ZoWvsdDg4FJ68bsTDwMvWGBbZ/s1000/1000310871.png',
+                    mantra: 'शुभ रात्रि! 🌙 दिनभर के सारे विचार प्रभु के चरणों में समर्पित कर शांतिपूर्ण निद्रा प्राप्त करें।'
+                }
+            ];
+        }
+
+        function renderDailyCards(cards) {
+            const container = document.getElementById('daily-cards-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            cards.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'daily-card';
+                card.onclick = () => {
+                    openPreview({
+                        id: item.id,
+                        title: `${item.badge} - ${item.title}`,
+                        category: 'Daily',
+                        thumb: item.image,
+                        hd: item.image,
+                        isLive: false,
+                        mantra: item.mantra
+                    });
+                };
+
+                card.innerHTML = `
+                    <div class="daily-card-badge">${item.badge}</div>
+                    <img class="daily-card-img" src="${item.image}" loading="lazy" alt="${item.title}">
+                    <div class="daily-card-gradient">
+                        <div class="daily-card-title">${item.title}</div>
+                        <div class="daily-card-sub">${item.sub}</div>
+                        <div class="daily-card-actions" onclick="event.stopPropagation()">
+                            <button class="daily-action-btn wa-btn" title="Share to WhatsApp" onclick="handleWhatsAppBtnClick(this, '${item.image}', '${item.title}', '${item.mantra}')">
+                                <i class="bi bi-whatsapp"></i>
+                            </button>
+                            <button class="daily-action-btn" title="Save" onclick="handleDownloadBtnClick(this, '${item.image}')">
+                                <i class="bi bi-download"></i>
+                            </button>
+                            <button class="daily-action-btn" title="Favorite" onclick="toggleFavoriteAction(this, '${item.image}')">
+                                <i class="bi ${isUrlFavorite(item.image) ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ==================== SMART HARDWARE BACK BUTTON NAVIGATION ENGINE ====================
+        window.handleAndroidBack = function() {
+            const clearModal = document.getElementById('confirm-clear-modal');
+            if (clearModal && clearModal.style.display === 'flex') {
+                closeClearModal();
+                return true;
+            }
+
+            const preview = document.getElementById('preview-modal');
+            if (preview && preview.style.display === 'flex') {
+                closePreviewModal();
+                return true;
+            }
+
+            const sheet = document.getElementById('wallpaper-sheet');
+            if (sheet && sheet.classList.contains('active')) {
+                closeWallpaperSheet();
+                return true;
+            }
+
+            const about = document.getElementById('about-modal');
+            if (about && about.style.display === 'flex') {
+                closeAboutModal();
+                return true;
+            }
+
+            const searchBar = document.getElementById('search-box-bar');
+            if (searchBar && searchBar.style.display === 'block') {
+                toggleSearchBox();
+                return true;
+            }
+
+            if (navHistoryStack.length > 1) {
+                navHistoryStack.pop();
+                const previousNav = navHistoryStack[navHistoryStack.length - 1] || 'home';
+                executeNavSwitch(previousNav, false);
+                return true;
+            }
+
+            return false;
+        };
+
+        window.addEventListener('popstate', () => {
+            window.handleAndroidBack();
+        });
+
+        // ==================== DEDICATED ISKCON DEVOTEE MODE ====================
+        function toggleIskconDevoteeMode() {
+            iskconMode = !iskconMode;
+            localStorage.setItem('wallhub_iskcon_mode', JSON.stringify(iskconMode));
+            applyIskconDevoteeModeUI(true);
+            if (typeof gtag === 'function') {
+                gtag('event', 'toggle_iskcon_mode', { is_active: iskconMode });
+            }
+        }
+
+        function applyIskconDevoteeModeUI(showFeedback) {
+            const btn = document.getElementById('iskcon-toggle-btn');
+            const pillText = document.getElementById('iskcon-pill-text');
+            const menuBadge = document.getElementById('iskcon-status-badge');
+            const tagline = document.getElementById('header-tagline');
+            const heading = document.getElementById('darshan-banner-heading');
+
+            if (iskconMode) {
+                btn.style.background = 'linear-gradient(135deg, #FF9933, #FF5500)';
+                btn.style.color = '#FFFFFF';
+                pillText.innerText = 'ISKCON ON';
+                if (menuBadge) menuBadge.innerText = 'ACTIVE';
+                if (tagline) tagline.innerText = 'DevDarshan • Prabhupada Grace 🌿';
+                if (heading) heading.innerText = 'Srila Prabhupada & Gaura Darshan';
+                if (showFeedback) showToast("ISKCON Devotee Mode Activated! 🌿");
+            } else {
+                btn.style.background = 'linear-gradient(135deg, var(--iskcon-saffron), #D97706)';
+                btn.style.color = '#000000';
+                pillText.innerText = 'ISKCON';
+                if (menuBadge) menuBadge.innerText = 'OFF';
+                if (tagline) tagline.innerText = 'Hindu Wallpaper • Divine Visuals';
+                if (heading) heading.innerText = "Today's Divine Darshan";
+                if (showFeedback) showToast("Sanatan Mode Active");
+            }
+        }
+
+        // ==================== AUTO BANNER SLIDER ====================
+        function startHeroAutoSlider() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(() => {
+                const track = document.getElementById('carousel-track');
+                const dots = document.querySelectorAll('.carousel-dot');
+                const totalSlides = 3;
+                
+                currentSlideIdx = (currentSlideIdx + 1) % totalSlides;
+                if (track) {
+                    track.style.transform = `translateX(-${currentSlideIdx * 100}%)`;
+                }
+                dots.forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === currentSlideIdx);
+                });
+            }, 4500);
+        }
+
+        // ==================== SUPER-FAST INDEXEDDB & CACHE-FIRST FETCHER ====================
+        async function fetchWallpapers(category) {
+            activeCategory = category;
+            const cacheKey = 'cache_category_' + category;
+
+            // 1. FAST PATH: Check IndexedDB first, then localStorage (Instant 0.01 sec UI render)
+            let cached = await getFromIndexedDB('wallpapers', category);
+            if (!cached) {
+                const localStr = localStorage.getItem(cacheKey);
+                if (localStr) {
+                    try { cached = JSON.parse(localStr); } catch(e) {}
+                }
+            }
+
+            if (cached && cached.length > 0) {
+                loadedWallpapers = cached;
+                showLoader(false);
+                renderHomeView();
+                renderExploreView();
+            } else {
+                showLoader(true);
+            }
+
+            // 2. NETWORK PATH (STALE-WHILE-REVALIDATE): Silently fetch freshest data from Google Blogger API
+            let apiUrl = `https://www.googleapis.com/blogger/v3/blogs/${BLOG_ID}/posts?key=${API_KEY}&maxResults=50`;
+            if (category !== 'All' && category !== 'Live') {
+                apiUrl += `&labels=${encodeURIComponent(category)}`;
+            }
+
+            fetch(apiUrl)
+                .then(res => res.json())
+                .then(data => {
+                    showLoader(false);
+                    if (data && data.items && data.items.length > 0) {
+                        let fresh = parseBloggerPosts(data.items, category);
+                        if (category === 'Live') {
+                            fresh = fresh.filter(item => item.isLive);
+                        }
+                        
+                        loadedWallpapers = fresh;
+                        
+                        // Save to both IndexedDB and localStorage for instant recovery
+                        saveToIndexedDB('wallpapers', { category: category, data: fresh });
+                        try {
+                            localStorage.setItem(cacheKey, JSON.stringify(fresh));
+                        } catch(e) {}
+
+                        renderHomeView();
+                        renderExploreView();
+                    } else if (!cached || cached.length === 0) {
+                        loadedWallpapers = filterFallbackByCategory(category);
+                        renderHomeView();
+                        renderExploreView();
+                    }
+                })
+                .catch(() => {
+                    showLoader(false);
+                    if (!cached || cached.length === 0) {
+                        loadedWallpapers = filterFallbackByCategory(category);
+                        renderHomeView();
+                        renderExploreView();
+                    }
+                });
+        }
+
+        // Crisp High-Resolution Post Parser (Next-gen WebP support)
+        function parseBloggerPosts(items, defaultCat) {
+            let parsed = [];
+            items.forEach((post, idx) => {
+                let tempDiv = document.createElement('div');
+                tempDiv.innerHTML = post.content || '';
+                let imgTag = tempDiv.querySelector('img');
+                
+                if (imgTag && imgTag.src) {
+                    let rawSrc = imgTag.src;
+                    let thumb = rawSrc;
+                    let hd = rawSrc;
+
+                    // Robust Google User Content Parser (Auto WebP -rw enhancement)
+                    if (rawSrc.includes('/s') || rawSrc.includes('/w')) {
+                        thumb = rawSrc.replace(/\/s\d+.*?\//, "/s400-rw/").replace(/\/w\d+-h\d+.*?\//, "/w400-rw/");
+                        hd = rawSrc.replace(/\/s\d+.*?\//, "/s1600-rw/").replace(/\/w\d+-h\d+.*?\//, "/s0-rw/");
+                    } else if (rawSrc.includes('=')) {
+                        thumb = rawSrc.split('=')[0] + '=w400-rw';
+                        hd = rawSrc.split('=')[0] + '=s0-rw';
+                    }
+                    
+                    let labels = (post.labels || []).map(l => l.toLowerCase());
+                    let titleLower = (post.title || '').toLowerCase();
+                    
+                    let isLive = labels.includes('live') || 
+                                 labels.includes('animated') || 
+                                 titleLower.includes('live') || 
+                                 hd.includes('.gif');
+
+                    parsed.push({
+                        id: post.id || ('post_' + idx),
+                        title: post.title || 'DevDarshan Sacred Visual',
+                        category: defaultCat === 'All' ? (labels[0] || 'Krishna') : defaultCat,
+                        thumb: thumb,
+                        hd: hd,
+                        isLive: isLive,
+                        liveMedia: hd
+                    });
+                }
+            });
+            return parsed.length > 0 ? parsed : FALLBACK_WALLPAPERS;
+        }
+
+        function filterFallbackByCategory(cat) {
+            if (cat === 'All') return FALLBACK_WALLPAPERS;
+            if (cat === 'Live') return FALLBACK_WALLPAPERS.filter(item => item.isLive);
+            return FALLBACK_WALLPAPERS.filter(item => item.category.toLowerCase() === cat.toLowerCase()) || FALLBACK_WALLPAPERS;
+        }
+
+        // ==================== RENDERING WALLPAPERS ====================
+        function renderHomeView() {
+            const grid = document.getElementById('home-wallpaper-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            if (loadedWallpapers.length === 0) {
+                grid.innerHTML = `<div class="empty-placeholder"><i class="bi bi-image"></i><h4>No Wallpapers Found</h4></div>`;
+                return;
+            }
+
+            loadedWallpapers.forEach(item => {
+                grid.appendChild(createWallpaperCardElement(item));
+            });
+        }
+
+        function renderExploreView() {
+            const grid = document.getElementById('explore-wallpaper-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            let filtered = loadedWallpapers;
+            if (exploreFilterType === 'live') {
+                filtered = loadedWallpapers.filter(item => item.isLive);
+            } else if (exploreFilterType === 'normal') {
+                filtered = loadedWallpapers.filter(item => !item.isLive);
+            }
+
+            filtered.forEach(item => {
+                grid.appendChild(createWallpaperCardElement(item));
+            });
+        }
+
+        function renderFavoritesView() {
+            const grid = document.getElementById('favorites-wallpaper-grid');
+            const empty = document.getElementById('fav-empty-state');
+            if (!grid || !empty) return;
+            grid.innerHTML = '';
+
+            if (!favorites || favorites.length === 0) {
+                empty.style.display = 'block';
+                return;
+            }
+            empty.style.display = 'none';
+
+            favorites.forEach((favItem, idx) => {
+                let item = typeof favItem === 'string' ? {
+                    id: 'fav_' + idx,
+                    title: 'Favorite Wallpaper',
+                    thumb: favItem,
+                    hd: favItem,
+                    isLive: false
+                } : favItem;
+                grid.appendChild(createWallpaperCardElement(item));
+            });
+        }
+
+        function createWallpaperCardElement(item) {
+            const isFav = isUrlFavorite(item.hd);
+            const card = document.createElement('div');
+            card.className = 'card-wall';
+
+            const setActionCode = item.isLive 
+                ? `executeSetLiveWallpaper('${item.hd}')` 
+                : `promptWallpaperOptions('${item.hd}')`;
+
+            card.innerHTML = `
+                <div class="card-thumb-wrap" onclick='handleCardClick(${JSON.stringify(item)})'>
+                    ${item.isLive ? '<div class="badge-live"><span class="badge-live-pulse"></span> LIVE</div>' : ''}
+                    <img src="${item.thumb}" loading="lazy" alt="${item.title}">
+                    <div class="card-footer-pill" onclick="event.stopPropagation()">
+                        <button class="pill-btn btn-fav ${isFav ? 'active' : ''}" onclick="toggleFavoriteAction(this, '${item.hd}')">
+                            <i class="bi ${isFav ? 'bi-heart-fill' : 'bi-heart'}"></i>
+                        </button>
+                        <button class="pill-btn-set ${item.isLive ? 'is-live-btn' : ''}" onclick="${setActionCode}">
+                            ${item.isLive ? 'SET LIVE' : 'SET'}
+                        </button>
+                        <button class="pill-btn" onclick="handleDownloadBtnClick(this, '${item.hd}')">
+                            <i class="bi bi-download"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function handleCardClick(item) {
+            openPreview(item);
+        }
+
+        // ==================== PREVIEW MODAL ====================
+        function openPreview(item) {
+            currentPreviewItem = item;
+            selectedWallpaperUrl = item.hd;
+            const modal = document.getElementById('preview-modal');
+            const posterImg = document.getElementById('preview-poster');
+            const liveMedia = document.getElementById('preview-live-media');
+            const livePill = document.getElementById('preview-live-pill');
+            const setBtn = document.getElementById('preview-set-btn');
+            const favBtn = document.getElementById('preview-fav-btn');
+
+            posterImg.src = item.hd || item.thumb;
+            liveMedia.classList.remove('loaded');
+            liveMedia.src = '';
+
+            if (item.isLive) {
+                livePill.style.display = 'flex';
+                setBtn.className = 'btn-set-wallpaper-main is-live';
+                setBtn.innerHTML = '<i class="bi bi-play-circle-fill"></i> Set Live Wallpaper';
+                
+                liveMedia.onload = () => {
+                    liveMedia.classList.add('loaded');
+                };
+                liveMedia.src = item.liveMedia || item.hd;
+            } else {
+                livePill.style.display = 'none';
+                setBtn.className = 'btn-set-wallpaper-main';
+                setBtn.innerHTML = '<i class="bi bi-image"></i> Set Wallpaper';
+            }
+
+            if (favBtn) {
+                const isFav = isUrlFavorite(item.hd);
+                favBtn.innerHTML = `<i class="bi ${isFav ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i>`;
+                favBtn.style.color = isFav ? 'var(--live-crimson)' : '#fff';
+            }
+
+            modal.style.display = 'flex';
+            history.pushState({ modal: 'preview' }, '');
+
+            if (typeof gtag === 'function') {
+                gtag('event', 'view_wallpaper', { title: item.title, category: item.category });
+            }
+        }
+
+        function closePreviewModal() {
+            const modal = document.getElementById('preview-modal');
+            const liveMedia = document.getElementById('preview-live-media');
+            if (liveMedia) {
+                liveMedia.classList.remove('loaded');
+                liveMedia.src = '';
+            }
+            if (modal) modal.style.display = 'none';
+            currentPreviewItem = null;
+        }
+
+        function togglePreviewFav() {
+            if (!currentPreviewItem) return;
+            const favBtn = document.getElementById('preview-fav-btn');
+            toggleFavoriteAction(favBtn, currentPreviewItem.hd);
+        }
+
+        function handlePreviewSetClick() {
+            if (!currentPreviewItem) return;
+            if (currentPreviewItem.isLive) {
+                executeSetLiveWallpaper(currentPreviewItem.hd);
+            } else {
+                promptWallpaperOptions(currentPreviewItem.hd);
+            }
+        }
+
+        // ==================== INSTANT MAGIC DEVOTIONAL LOADER SYSTEM ====================
+        function openMagicLoader(statusMsg) {
+            const overlay = document.getElementById('magic-loader-overlay');
+            const pctText = document.getElementById('magic-pct-text');
+            const statusText = document.getElementById('magic-status-text');
+            const fill = document.getElementById('magic-bar-fill');
+            const ring = document.getElementById('magic-outer-ring');
+
+            pctText.innerText = '10%';
+            pctText.style.color = '#FFFFFF';
+            fill.style.width = '10%';
+            ring.style.borderColor = 'var(--gold-primary)';
+            statusText.style.color = 'var(--text-muted)';
+            statusText.innerText = statusMsg || "⚡ Connecting to High-Speed CDN...";
+
+            overlay.style.display = 'flex';
+        }
+
+        function promptWallpaperOptions(url) {
+            selectedWallpaperUrl = url;
+            document.getElementById('sheet-backdrop').style.display = 'block';
+            document.getElementById('wallpaper-sheet').classList.add('active');
+            history.pushState({ modal: 'sheet' }, '');
+        }
+
+        function closeWallpaperSheet() {
+            document.getElementById('sheet-backdrop').style.display = 'none';
+            document.getElementById('wallpaper-sheet').classList.remove('active');
+        }
+
+        function executeSetWallpaper(targetType) {
+            closeWallpaperSheet();
+            if (!selectedWallpaperUrl) return;
+
+            showRealtimeAction("⚡ Setting Wallpaper...");
+            openMagicLoader("⚡ Applying Wallpaper Instantly...");
+
+            if (typeof gtag === 'function') {
+                gtag('event', 'set_wallpaper_target', {
+                    target_type: targetType,
+                    wallpaper_url: selectedWallpaperUrl
+                });
+            }
+
+            if (window.Android && typeof window.Android.setWallpaper === 'function') {
+                window.Android.setWallpaper(selectedWallpaperUrl, targetType);
+            } else {
+                simulateInstantNativeProgress("🎉 Wallpaper Applied Successfully!");
+            }
+        }
+
+        function executeSetLiveWallpaper(url) {
+            showRealtimeAction("🎬 Launching Live Wallpaper...");
+            openMagicLoader("🎬 Launching Live Wallpaper Engine...");
+
+            if (typeof gtag === 'function') {
+                gtag('event', 'set_live_wallpaper', { wallpaper_url: url });
+            }
+
+            if (window.Android && typeof window.Android.setWallpaper === 'function') {
+                window.Android.setWallpaper(url, 3);
+            } else {
+                simulateInstantNativeProgress("🎉 Live Wallpaper Applied!");
+            }
+        }
+
+        // REAL-TIME PROGRESS LISTENER: DIRECT FROM JAVA
+        window.updateProgress = function(percent, statusMessage, isDone, isError) {
+            const overlay = document.getElementById('magic-loader-overlay');
+            const pctText = document.getElementById('magic-pct-text');
+            const statusText = document.getElementById('magic-status-text');
+            const fill = document.getElementById('magic-bar-fill');
+            const ring = document.getElementById('magic-outer-ring');
+
+            if (pctText) pctText.innerText = percent + '%';
+            if (statusMessage && statusText) statusText.innerText = statusMessage;
+            if (fill) fill.style.width = percent + '%';
+
+            if (isError) {
+                if (pctText) {
+                    pctText.innerText = 'Failed';
+                    pctText.style.color = '#FF4757';
+                }
+                if (ring) ring.style.borderColor = '#FF4757';
+                if (statusText) statusText.style.color = '#FF8080';
+                
+                showRealtimeAction(statusMessage || "Error setting wallpaper", true);
+                setTimeout(() => { 
+                    if (overlay) overlay.style.display = 'none'; 
+                    showToast(statusMessage || "Error setting wallpaper.");
+                }, 1800);
+            } 
+            else if (isDone) {
+                if (pctText) {
+                    pctText.innerText = '100%';
+                    pctText.style.color = '#34D399';
+                }
+                if (ring) ring.style.borderColor = '#34D399';
+                if (fill) fill.style.width = '100%';
+                showRealtimeAction("✓ Wallpaper Set Successfully!", true);
+                setTimeout(() => { 
+                    if (overlay) overlay.style.display = 'none'; 
+                    showToast("Wallpaper Applied Successfully! ✨");
+                }, 800);
+            }
+        };
+
+        function simulateInstantNativeProgress(msg) {
+            window.updateProgress(45, "📥 Downloading Ultra HD...", false, false);
+            setTimeout(() => { window.updateProgress(85, "🎨 Rendering Display...", false, false); }, 200);
+            setTimeout(() => { window.updateProgress(100, msg, true, false); }, 500);
+        }
+
+        // ==================== INSTANT GALLERY DOWNLOAD & REAL-TIME FEEDBACK ====================
+        function handleDownloadBtnClick(btn, url) {
+            if (btn) btn.classList.add('btn-loading');
+            directDownloadToGallery(url);
+            setTimeout(() => {
+                if (btn) btn.classList.remove('btn-loading');
+            }, 1200);
+        }
+
+        function directDownloadToGallery(url) {
+            showRealtimeAction("⬇️ Saving to Device Gallery...");
+
+            if (typeof gtag === 'function') {
+                gtag('event', 'download_wallpaper', { wallpaper_url: url });
+            }
+
+            if (window.Android && typeof window.Android.downloadFile === 'function') {
+                window.Android.downloadFile(url);
+                showRealtimeAction("✓ Saved to Device Gallery!", true);
+                showToast("Saved to Device Gallery ✨");
+            } else {
+                fetch(url)
+                    .then(res => res.blob())
+                    .then(blob => {
+                        const blobUrl = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.style.display = 'none';
+                        a.href = blobUrl;
+                        a.download = `DevDarshan_${Date.now()}.jpg`;
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(blobUrl);
+                        document.body.removeChild(a);
+                        showRealtimeAction("✓ Saved to Device Gallery!", true);
+                        showToast("Saved to Device Gallery ✨");
+                    })
+                    .catch(() => {
+                        showRealtimeAction("Download Failed", true);
+                        showToast("Download failed. Check connection.");
+                    });
+            }
+        }
+
+        function downloadCurrentWallpaper() {
+            const btn = document.getElementById('preview-download-action');
+            if (btn) btn.classList.add('btn-loading');
+            if (selectedWallpaperUrl) directDownloadToGallery(selectedWallpaperUrl);
+            setTimeout(() => {
+                if (btn) btn.classList.remove('btn-loading');
+            }, 1200);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast-notification');
+            const text = document.getElementById('toast-msg');
+            if (toast && text) {
+                text.innerText = msg;
+                toast.classList.add('show');
+                setTimeout(() => { 
+                    toast.classList.remove('show'); 
+                }, 2600);
+            }
+        }
+
+        // ==================== ROCK-SOLID VIRAL WHATSAPP & REAL IMAGE SHARE ====================
+        function formatViralDevotionalMessage(title, quote) {
+            const dateStr = new Date().toLocaleDateString('hi-IN', { weekday: 'long', day: 'numeric', month: 'long' });
+            return `🌸 *जय श्री कृष्ण • ॐ नमः शिवाय* 🌸\n` +
+                   `✨ *${title || 'आज का पावन दिव्य दर्शन'}*\n` +
+                   `📅 *${dateStr}*\n\n` +
+                   `"${quote || 'ईश्वर के चरणों में ही परम शांति और सच्चा आनंद है।'}"\n\n` +
+                   `📲 *रोज़ाना 4K दर्शन, वॉलपेपर और WhatsApp स्टेटस पाने के लिए अभी DevDarshan App डाउनलोड करें:* 👇\n` +
+                   `👉 ${PLAY_STORE_URL}`;
+        }
+
+        function handleWhatsAppBtnClick(btn, imageUrl, title, quote) {
+            if (btn) btn.classList.add('btn-loading');
+            shareViralWhatsApp(imageUrl, title, quote);
+            setTimeout(() => {
+                if (btn) btn.classList.remove('btn-loading');
+            }, 1500);
+        }
+
+        // Robust Share System with Image Attachment, Deep Link & Browser Fallback
+        async function shareViralWhatsApp(imageUrl, title, quote) {
+            showRealtimeAction("🟢 Opening WhatsApp...");
+            const text = formatViralDevotionalMessage(title, quote);
+
+            if (typeof gtag === 'function') {
+                gtag('event', 'share_whatsapp', { title: title });
+            }
+
+            // 1. Android Sketchware Bridge
+            if (window.Android && typeof window.Android.shareToWhatsApp === 'function') {
+                window.Android.shareToWhatsApp(imageUrl, text);
+                showRealtimeAction("✓ WhatsApp Opened!", true);
+                return;
+            }
+
+            // 2. Modern Native File Sharing (Attaches Real Image directly!)
+            if (navigator.canShare) {
+                try {
+                    showRealtimeAction("Preparing HD Image...");
+                    const res = await fetch(imageUrl);
+                    const blob = await res.blob();
+                    const file = new File([blob], 'DevDarshan_Darshan.jpg', { type: blob.type || 'image/jpeg' });
+
+                    if (navigator.canShare({ files: [file] })) {
+                        await navigator.share({
+                            files: [file],
+                            title: title || 'DevDarshan',
+                            text: text
+                        });
+                        showRealtimeAction("✓ Shared Successfully!", true);
+                        return;
+                    }
+                } catch(err) {
+                    // Fall back to direct WhatsApp intent
+                }
+            }
+
+            // 3. Direct WhatsApp Native App Deep Link (No Chrome Browser Redirection!)
+            showRealtimeAction("Launching WhatsApp App...", true);
+            const encodedText = encodeURIComponent(text + '\n\n' + imageUrl);
+            const deepLink = `whatsapp://send?text=${encodedText}`;
+            const webLink = `https://api.whatsapp.com/send?text=${encodedText}`;
+
+            // Try direct native protocol first
+            window.location.href = deepLink;
+
+            // Fallback timeout in case deepLink isn't handled
+            setTimeout(() => {
+                window.open(webLink, '_blank');
+            }, 600);
+        }
+
+        async function shareCurrentWallpaper() {
+            const btn = document.getElementById('preview-share-btn');
+            if (btn) btn.classList.add('btn-loading');
+
+            const title = currentPreviewItem ? currentPreviewItem.title : "DevDarshan Wallpaper";
+            const text = formatViralDevotionalMessage(title, currentPreviewItem ? currentPreviewItem.mantra : null);
+
+            showRealtimeAction("📤 Preparing to Share...");
+
+            if (typeof gtag === 'function') {
+                gtag('event', 'share_general', { title: title });
+            }
+
+            // 1. Android Bridge
+            if (window.Android && typeof window.Android.shareGeneral === 'function') {
+                window.Android.shareGeneral(selectedWallpaperUrl, text);
+                showRealtimeAction("✓ Shared!", true);
+                if (btn) btn.classList.remove('btn-loading');
+                return;
+            }
+
+            // 2. File Share (Shares real file to Instagram, Telegram, WhatsApp, etc.)
+            if (navigator.canShare) {
+                try {
+                    const res = await fetch(selectedWallpaperUrl);
+                    const blob = await res.blob();
+                    const file = new File([blob], 'DevDarshan.jpg', { type: blob.type || 'image/jpeg' });
+
+                    if (navigator.canShare({ files: [file] })) {
+                        await navigator.share({
+                            files: [file],
+                            title: title,
+                            text: text
+                        });
+                        showRealtimeAction("✓ Shared Successfully!", true);
+                        if (btn) btn.classList.remove('btn-loading');
+                        return;
+                    }
+                } catch(e) {}
+            }
+
+            // 3. Standard Navigator Share
+            if (navigator.share) {
+                navigator.share({ title: title, text: text, url: selectedWallpaperUrl })
+                    .then(() => showRealtimeAction("✓ Shared!", true))
+                    .catch(() => hideRealtimeAction());
+            } else {
+                shareToWhatsAppCurrent();
+            }
+
+            if (btn) btn.classList.remove('btn-loading');
+        }
+
+        function shareToWhatsAppCurrent() {
+            if (!selectedWallpaperUrl) return;
+            const title = currentPreviewItem ? currentPreviewItem.title : "DevDarshan Divine Darshan";
+            shareViralWhatsApp(selectedWallpaperUrl, title, currentPreviewItem ? currentPreviewItem.mantra : null);
+        }
+
+        function triggerNativeShare() {
+            const promoText = `🌿 *DevDarshan App - हिन्दू देवी-देवता एवं इस्कॉन 4K वॉलपेपर*\n\n` +
+                              `हर रोज़ पाएं नए दर्शन, शुभ प्रभात स्टेटस, गीता ज्ञान व लाइव वॉलपेपर 100% फ्री!\n\n` +
+                              `📲 *Play Store से अभी इनस्टॉल करें:* 👇\n${PLAY_STORE_URL}`;
+
+            showRealtimeAction("📤 Sharing App Promo...");
+
+            if (typeof gtag === 'function') {
+                gtag('event', 'share_app_promo');
+            }
+
+            if (window.Android && typeof window.Android.shareApp === 'function') {
+                window.Android.shareApp();
+                showRealtimeAction("✓ Shared!", true);
+            } else if (navigator.share) {
+                navigator.share({ title: 'DevDarshan App', text: promoText, url: PLAY_STORE_URL })
+                    .then(() => showRealtimeAction("✓ Shared!", true))
+                    .catch(() => hideRealtimeAction());
+            } else {
+                window.open(`whatsapp://send?text=${encodeURIComponent(promoText)}`, '_blank');
+                showRealtimeAction("✓ WhatsApp Opened!", true);
+            }
+        }
+
+        function triggerNativeRate() {
+            if (typeof gtag === 'function') {
+                gtag('event', 'rate_app_click');
+            }
+
+            if (window.Android && typeof window.Android.rateApp === 'function') {
+                window.Android.rateApp();
+            } else {
+                window.open(PLAY_STORE_URL, "_blank");
+            }
+        }
+
+        function triggerMoreApps() {
+            if (window.Android && typeof window.Android.openBrowser === 'function') {
+                window.Android.openBrowser(PLAY_STORE_URL);
+            } else {
+                window.open(PLAY_STORE_URL, "_blank");
+            }
+        }
+
+        function openAboutModal() {
+            document.getElementById('about-modal').style.display = 'flex';
+            history.pushState({ modal: 'about' }, '');
+        }
+
+        function closeAboutModal() {
+            document.getElementById('about-modal').style.display = 'none';
+        }
+
+        // ==================== FAVORITES & CUSTOM IN-APP CLEAR ENGINE ====================
+        function isUrlFavorite(url) {
+            return favorites.includes(url);
+        }
+
+        function toggleFavoriteAction(btnElement, url) {
+            const index = favorites.indexOf(url);
+            if (index === -1) {
+                favorites.push(url);
+                if (btnElement) {
+                    btnElement.classList.add('active');
+                    btnElement.innerHTML = '<i class="bi bi-heart-fill text-danger"></i>';
+                }
+                showRealtimeAction("❤️ Added to Favorites!", true);
+                showToast("Added to Favorites ❤️");
+                if (typeof gtag === 'function') {
+                    gtag('event', 'favorite_added', { url: url });
+                }
+            } else {
+                favorites.splice(index, 1);
+                if (btnElement) {
+                    btnElement.classList.remove('active');
+                    btnElement.innerHTML = '<i class="bi bi-heart"></i>';
+                }
+                showRealtimeAction("Removed from Favorites", true);
+                showToast("Removed from Favorites");
+                if (typeof gtag === 'function') {
+                    gtag('event', 'favorite_removed', { url: url });
+                }
+            }
+            localStorage.setItem('wallhub_favs', JSON.stringify(favorites));
+
+            if (document.getElementById('view-favorites').classList.contains('active-page')) {
+                renderFavoritesView();
+            }
+        }
+
+        function openClearModal(type) {
+            clearTargetAction = type;
+            const modal = document.getElementById('confirm-clear-modal');
+            const title = document.getElementById('confirm-clear-title');
+            const desc = document.getElementById('confirm-clear-desc');
+
+            if (type === 'favorites') {
+                title.innerText = "Clear All Favorites?";
+                desc.innerText = "Do you want to clear your saved favorite wallpapers?";
+            } else {
+                title.innerText = "Clear Favorites & Cache?";
+                desc.innerText = "This will clear your saved favorites and reset local app preferences.";
+            }
+
+            modal.style.display = 'flex';
+            history.pushState({ modal: 'clear_confirm' }, '');
+        }
+
+        function closeClearModal() {
+            const modal = document.getElementById('confirm-clear-modal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function executeConfirmedClear() {
+            closeClearModal();
+            favorites = [];
+            localStorage.removeItem('wallhub_favs');
+            localStorage.removeItem('wallhub_cached_registry');
+
+            // Clear all category caches in localStorage & IndexedDB
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('cache_category_') || key.startsWith('dd_daily_')) {
+                    localStorage.removeItem(key);
+                }
+            });
+            clearEntireIndexedDB();
+
+            document.querySelectorAll('.pill-btn.btn-fav').forEach(btn => {
+                btn.classList.remove('active');
+                btn.innerHTML = '<i class="bi bi-heart"></i>';
+            });
+
+            renderFavoritesView();
+
+            if (clearTargetAction === 'all') {
+                showToast("All Favorites & Cache Cleared ✨");
+            } else {
+                showToast("Favorites Cleared Successfully ✨");
+            }
+        }
+
+        // ==================== NAVIGATION & ROUTING ====================
+        function switchNav(navId) {
+            executeNavSwitch(navId, true);
+        }
+
+        function executeNavSwitch(navId, pushToHistory) {
+            if (pushToHistory && navHistoryStack[navHistoryStack.length - 1] !== navId) {
+                navHistoryStack.push(navId);
+            }
+
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            const activeNavItem = document.getElementById('nav-' + navId);
+            if (activeNavItem) activeNavItem.classList.add('active');
+
+            document.querySelectorAll('.view-page').forEach(page => page.classList.remove('active-page'));
+            const targetPage = document.getElementById('view-' + navId);
+            if (targetPage) targetPage.classList.add('active-page');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (navId === 'favorites') renderFavoritesView();
+            else if (navId === 'explore') renderExploreView();
+
+            if (typeof gtag === 'function') {
+                gtag('event', 'screen_view', { app_screen: navId });
+            }
+        }
+
+        function selectCategory(category, chipElem) {
+            document.querySelectorAll('.avatar-cat-item').forEach(el => el.classList.remove('active'));
+            if (chipElem) chipElem.classList.add('active');
+            
+            const title = document.getElementById('home-grid-title');
+            if (title) title.innerText = category === 'All' ? 'Latest Wallpapers' : `${category} Wallpapers`;
+            
+            if (typeof gtag === 'function') {
+                gtag('event', 'select_category', { category_name: category });
+            }
+
+            fetchWallpapers(category);
+        }
+
+        function setExploreFilter(type, tabElem) {
+            exploreFilterType = type;
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            if (tabElem) tabElem.classList.add('active');
+            renderExploreView();
+        }
+
+        function filterByFestival(festName) {
+            switchNav('home');
+            selectCategory(festName, null);
+        }
+
+        function toggleSearchBox() {
+            const bar = document.getElementById('search-box-bar');
+            const input = document.getElementById('main-search-input');
+            if (bar.style.display === 'block') {
+                bar.style.display = 'none';
+            } else {
+                bar.style.display = 'block';
+                input.focus();
+            }
+        }
+
+        function handleSearchInput(e) {
+            const query = e.target.value.trim().toLowerCase();
+            if (e.key === 'Enter' && query.length > 1) {
+                showLoader(true);
+                toggleSearchBox();
+                switchNav('home');
+                const title = document.getElementById('home-grid-title');
+                if (title) title.innerText = `Search: "${query}"`;
+
+                if (typeof gtag === 'function') {
+                    gtag('event', 'search', { search_term: query });
+                }
+
+                let apiUrl = `https://www.googleapis.com/blogger/v3/blogs/${BLOG_ID}/posts/search?q=${encodeURIComponent(query)}&key=${API_KEY}`;
+                fetch(apiUrl)
+                    .then(res => res.json())
+                    .then(data => {
+                        showLoader(false);
+                        if (data && data.items && data.items.length > 0) {
+                            loadedWallpapers = parseBloggerPosts(data.items, query);
+                        } else {
+                            loadedWallpapers = FALLBACK_WALLPAPERS.filter(i => i.title.toLowerCase().includes(query));
+                        }
+                        renderHomeView();
+                    })
+                    .catch(() => {
+                        showLoader(false);
+                        loadedWallpapers = FALLBACK_WALLPAPERS.filter(i => i.title.toLowerCase().includes(query));
+                        renderHomeView();
+                    });
+            }
+        }
+
+        function showLoader(visible) {
+            const el = document.getElementById('loader-overlay');
+            if (el) el.style.display = visible ? 'flex' : 'none';
+        }
+
+        function showInfoToast() {
+            if (currentPreviewItem) {
+                alert(`Title: ${currentPreviewItem.title}\nCategory: ${currentPreviewItem.category || 'Sacred'}\nType: ${currentPreviewItem.isLive ? 'Live Wallpaper' : 'Ultra HD'}`);
+            }
+        }
+    </script>
+</body>
+</html>
